@@ -18,4 +18,20 @@ public class UserInfo {
     private String similarExp;
     private Boolean purpose;
     private Double rating;
+
+    public UserInfo() {
+
+    }
+
+    public UserInfo(String name, Boolean gender, String email, String phoneNumber, String emerPhoneNumber, String presentation, String condition, String similarExp, Boolean purpose) {
+        this.name = name;
+        this.gender = gender;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.emerPhoneNumber = emerPhoneNumber;
+        this.presentation = presentation;
+        this.condition = condition;
+        this.similarExp = similarExp;
+        this.purpose = purpose;
+    }
 }

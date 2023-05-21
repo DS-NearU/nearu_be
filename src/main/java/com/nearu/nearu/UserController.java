@@ -11,7 +11,12 @@ public class UserController {
     }
 
     public boolean signIn(String userId, String pw){
-
+        Integer n = userService.fetch(userId).getUserNo();
+        if(userPwService.fetch(n).getPassword().equals(pw))
+        {
+            return true;
+        }
+        return false;
     }
 
 

@@ -3,7 +3,7 @@ package com.nearu.nearu;
 import java.util.*;
 
 public class UserService implements UserRepository{
-    private Map<Integer, User> userMap = new HashMap<>();
+    private static Map<Integer, User> userMap = new HashMap<>();
     public static int USER_NUM = 1;
     @Override
     public boolean save(User u) {

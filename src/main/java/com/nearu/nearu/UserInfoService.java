@@ -2,7 +2,7 @@ package com.nearu.nearu;
 
 import java.util.*;
 public class UserInfoService implements UserInfoRepository{
-    private static Map<Integer, UserInfo> userInfoMap = new HashMap<>();
+    public static Map<Integer, UserInfo> userInfoMap = new HashMap<>();
 
     @Override
     public void save(UserInfo info) {

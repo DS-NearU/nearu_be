@@ -5,5 +5,4 @@ public interface UserRepository {
     User fetch(String userId);
     void update (String userId, User u);
     void delete (String userId);
-
 }

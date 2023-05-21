@@ -40,7 +40,7 @@ public class UserService implements UserRepository{
 
     @Override
     public void delete(String s) {
-        for (int i=0; i<userList.size(); i++) {
+        for (int i = 0; i < userList.size(); i++) {
             if (userList.get(i).getUserId().equals(s)) {
                 userList.remove(i);
             }

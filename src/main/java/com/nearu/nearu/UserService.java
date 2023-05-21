@@ -1,49 +1,40 @@
 package com.nearu.nearu;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class UserService implements UserRepository{
-    private List<User> userList = new ArrayList<User>();
+    private Map<Integer, User> userMap = new HashMap<>();
     public static int USER_NUM = 1;
     @Override
     public boolean save(User u) {
-        for (int i=0; i<userList.size(); i++) {
-            if (userList.get(i).getUserId().equals(u.getUserId())) {
+        for (User user : userMap.values()) {
+            if (user.getUserId().equals(u.getUserId())) {
                 return false;
             }
         }
         u.setUserNo(USER_NUM);
-        userList.add(u);
+        userMap.put(USER_NUM, u);
         USER_NUM++;
         return true;
     }
 
     @Override
     public User fetch(String s) {
-        for (int i=0; i<userList.size(); i++) {
-            if (userList.get(i).getUserId().equals(s)) {
-                return userList.get(i);
+        for (User user : userMap.values()) {
+            if (user.getUserId().equals(s)) {
+                return user;
             }
         }
         return null;
     }
 
     @Override
-    public void update(String s, User u) {
-        for (int i=0; i<userList.size(); i++) {
-            if (userList.get(i).getUserId().equals(s)) {
-                userList.set(i, u);
-            }
-        }
+    public void update(User u) {
+        userMap.put(u.getUserNo(), u);
     }
 
     @Override
-    public void delete(String s) {
-        for (int i = 0; i < userList.size(); i++) {
-            if (userList.get(i).getUserId().equals(s)) {
-                userList.remove(i);
-            }
-        }
+    public void delete(Integer userNo) {
+        userMap.remove(userNo);
     }
 }

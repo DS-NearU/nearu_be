@@ -8,10 +8,12 @@ public class UserController {
 
     public void signUp(String userId, String pw, Boolean type, String name, Boolean gender, String email, String phNum, String emNum, String present, String cond, String simExp, Boolean purpose) {
         User u = new User(type, userId);
-        if (userService.save(u)) {
+        if (userService.save(u)) { //passing by ref / passing by val
             UserInfo info = new UserInfo(name, gender, email, phNum, emNum, present, cond, simExp, purpose);
+            info.setUserNo(u.getUserNo());
             userInfoService.save(info);
             UserPw p = new UserPw(pw);
+            p.setUserNo(u.getUserNo());
             userPwService.save(p);
         }
     }

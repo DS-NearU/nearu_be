@@ -13,4 +13,14 @@ public class Qa {
     private String date;
     private String title;
     private String question;
+
+    public Qa() {
+    }
+
+    public Qa(Boolean anonymous, String date, String title, String question) {
+        this.anonymous = anonymous;
+        this.date = date;
+        this.title = title;
+        this.question = question;
+    }
 }

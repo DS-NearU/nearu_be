@@ -1,11 +1,10 @@
 package com.nearu.nearu.controller;
 
-import com.nearu.nearu.UserController;
-import com.nearu.nearu.UserInfoService;
-import com.nearu.nearu.UserPwService;
-import com.nearu.nearu.UserService;
+import com.nearu.nearu.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.util.Map;
 
 public class UserControllerTest {
 
@@ -20,6 +19,10 @@ public class UserControllerTest {
 
         // UserService.userMap.get();
         Assertions.assertEquals("abc", userService.fetch("abc").getUserId());
+        UserInfo ui = userInfo.fetch(userService.fetch("abc").getUserNo());
+        Map<Integer, UserInfo> userInfoMap = UserInfoService.userInfoMap;
+        //Assertions.assertNotNull(userService.fetch("abc").getUserNo());
+        Assertions.assertEquals("abc@gmail", userInfo.fetch(userService.fetch("abc").getUserNo()).getEmail());
     }
 
     /*

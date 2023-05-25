@@ -9,4 +9,11 @@ public class Favorites {
     private Integer favoriteNo;
     private Integer userNo;
     private String address;
+
+    public Favorites() {
+    }
+
+    public Favorites(String address) {
+        this.address = address;
+    }
 }

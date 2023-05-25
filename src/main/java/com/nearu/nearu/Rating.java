@@ -11,4 +11,15 @@ public class Rating {
     private Integer applicationNo;
     private Integer rating;
     private String comment;
+
+    public Rating () {
+
+    }
+
+    public Rating(Integer rating, String comment) {
+        this.rating = rating;
+        this.comment = comment;
+    }
 }
+
+

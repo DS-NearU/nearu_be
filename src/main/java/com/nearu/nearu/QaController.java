@@ -1,10 +1,13 @@
 package com.nearu.nearu;
 
 import java.time.LocalDateTime;
+import java.util.*;
 
 public class QaController {
     private final QaService qaService = new QaService();
     private final CommentService commentService = new CommentService();
+
+
 
     public void post(Integer userNo, Boolean anonymous, String title, String content){
         Qa question = new Qa(anonymous, LocalDateTime.now(), title, content);
@@ -39,5 +42,17 @@ public class QaController {
 
     public void commentDelete(Integer commentNo) {
         commentService.delete(commentNo);
+    }
+
+    public QaReadResponse read (Integer qaNo) {
+        QaReadResponse response =  new QaReadResponse();
+        response.setQuestion(qaService.fetch(qaNo));
+        ArrayList<Comment> comments = commentService.fetchAllByQa(qaNo);
+        response.setComments(comments);
+        return response;
+    }
+
+    public ArrayList<Qa> readAll () {
+        return qaService.readAll();
     }
 }

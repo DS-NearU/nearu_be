@@ -29,4 +29,10 @@ public class QaService implements QaRepository{
     public void delete(Integer qaNo) {
         qaMap.remove(qaNo);
     }
+
+    @Override
+    public ArrayList<Qa> readAll() {
+        ArrayList<Qa> qaAll = (ArrayList<Qa>) qaMap.values();
+        return qaAll;
+    }
 }

@@ -49,4 +49,14 @@ public class CommentService implements CommentRepository {
             }
         }
     }
+
+    public int countCom (Integer qaNo) {
+        int count = 0;
+        for (Comment com : comMap.values()) {
+            if (com.getQaNo() == qaNo) {
+                count++;
+            }
+        }
+        return count;
+    }
 }

@@ -13,13 +13,19 @@ public class CommentService implements CommentRepository {
     }
 
     @Override
-    public Comment fetch(Integer commentNo) {
+    public Comment fetch (Integer commentNo) {
+        return comMap.get(commentNo);
+    }
+
+    @Override
+    public ArrayList<Comment> fetchAllByQa(Integer qaNo) {
+        ArrayList<Comment> allComments = new ArrayList<Comment>();
         for (Comment com : comMap.values()) {
-            if (com.getCommentNo() == commentNo) {
-                return com;
+            if (com.getQaNo() == qaNo) {
+                allComments.add(com);
             }
         }
-        return null;
+        return allComments;
     }
 
     @Override

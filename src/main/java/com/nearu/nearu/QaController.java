@@ -17,6 +17,7 @@ public class QaController {
         question.setUpdatedDt(LocalDateTime.now());
         question.setTitle(title);
         question.setQuestion(content);
+        qaService.update(question);
     }
 
     public void delete(Integer qaNo){
@@ -24,4 +25,19 @@ public class QaController {
         qaService.delete(qaNo);
     }
 
+    public void commentPost(Integer userNo, Integer qaNo, String content) {
+        Comment com = new Comment (userNo, qaNo, content, LocalDateTime.now());
+        commentService.save(com);
+    }
+
+    public void commentEdit(Integer commentNo, String content) {
+        Comment com = commentService.fetch(commentNo);
+        com.setContent(content);
+        com.setUpdatedAt(LocalDateTime.now());
+        commentService.update(com);
+    }
+
+    public void commentDelete(Integer commentNo) {
+        commentService.delete(commentNo);
+    }
 }

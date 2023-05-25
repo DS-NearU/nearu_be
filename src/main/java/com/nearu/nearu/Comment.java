@@ -3,6 +3,8 @@ package com.nearu.nearu;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 public class Comment {
@@ -10,12 +12,13 @@ public class Comment {
     private Integer userNo;
     private Integer qaNo;
     private String content;
-    private String createdAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     public Comment() {
     }
 
-    public Comment(Integer userNo, Integer qaNo, String content, String createdAt) {
+    public Comment(Integer userNo, Integer qaNo, String content, LocalDateTime createdAt) {
         this.userNo = userNo;
         this.qaNo = qaNo;
         this.content = content;

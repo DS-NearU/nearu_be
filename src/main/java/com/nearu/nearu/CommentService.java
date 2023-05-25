@@ -5,7 +5,7 @@ public class CommentService implements CommentRepository {
     public static Map<Integer, Comment> comMap = new HashMap<>();
 
     @Override
-    public boolean save(Comment c) {
+    public void save(Comment c) {
         for (Comment com : comMap.values()) {
             if (com.getCommentNo()==c.getCommentNo()) {
                 comMap.put(c.getCommentNo(), c);

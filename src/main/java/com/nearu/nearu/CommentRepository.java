@@ -6,4 +6,5 @@ public interface CommentRepository
     Comment fetch (Integer commentNo);
     void update (Comment c);
     void delete (Integer commentNo);
+    void deleteAll(Integer qaNo);
 }

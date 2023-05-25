@@ -10,4 +10,14 @@ public class Notifications {
     private Boolean emailNotif;
     private Boolean msgNotif;
     private Boolean kakaoNotif;
+
+    public Notifications() {
+    }
+
+    public Notifications(Boolean emailNotif, Boolean msgNotif, Boolean kakaoNotif) {
+        this.emailNotif = emailNotif;
+        this.msgNotif = msgNotif;
+        this.kakaoNotif = kakaoNotif;
+    }
 }
+

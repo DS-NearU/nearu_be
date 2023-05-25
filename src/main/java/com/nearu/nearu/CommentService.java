@@ -4,13 +4,12 @@ public class CommentService implements CommentRepository {
 
     public static Map<Integer, Comment> comMap = new HashMap<>();
 
+    public static int COM_NUM=1;
     @Override
     public void save(Comment c) {
-        for (Comment com : comMap.values()) {
-            if (com.getCommentNo()==c.getCommentNo()) {
-                comMap.put(c.getCommentNo(), c);
-            }
-        }
+        c.setCommentNo(COM_NUM);
+        comMap.put(COM_NUM, c);
+        COM_NUM++;
     }
 
     @Override
@@ -31,5 +30,17 @@ public class CommentService implements CommentRepository {
     @Override
     public void delete(Integer commentNo) {
         comMap.remove(commentNo);
+    }
+
+    @Override
+    public void deleteAll(Integer qaNo){
+        Set<Integer> keySet = comMap.keySet();
+        for(Integer key : keySet)
+        {
+            Comment comment = comMap.get(key);
+            if(comment.getQaNo()==qaNo){
+                comMap.remove(key);
+            }
+        }
     }
 }

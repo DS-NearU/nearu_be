@@ -15,7 +15,7 @@ public class UserControllerTest {
 
     @Test
     void signUpTest(){
-        userController.signUp("abc", "abc", true, "dong", true, "abc@gmail", "222", "232",  "abc", "abc", "abc", false);
+        userController.signUp("abc", "abc", true, "dong", true, "abc@gmail", "222", "232",  "abc", "abc", "abc", false, true, true, true);
 
         // UserService.userMap.get();
         Assertions.assertEquals("abc", userService.fetch("abc").getUserId());

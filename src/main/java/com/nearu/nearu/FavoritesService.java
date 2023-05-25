@@ -6,7 +6,7 @@ public class FavoritesService implements FavoritesRepository{
     @Override
     public boolean save(Favorites fav) {
         for(Favorites f : favoritesMap.values()){
-            if(f.getAddress().equals(fav.getAddress())){
+            if((fav.getUserNo()==f.getUserNo()) && (f.getAddress().equals(fav.getAddress()))){
                 return false;
             }
         }

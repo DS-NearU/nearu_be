@@ -5,13 +5,9 @@ import java.util.*;
 public class ApplicationService implements ApplicationRepository{
     public static Map<Integer, Application> appMap = new HashMap<>();
     public static int APP_NUM = 1;
+
     @Override
     public boolean save(Application a) {
-        for (Application app : appMap.values()) {
-            if (app.getAdminNo().equals(a.getAdminNo())) {
-                return false;
-            }
-        }
         a.setAdminNo(APP_NUM);
         appMap.put(APP_NUM, a);
         APP_NUM++;
@@ -19,13 +15,24 @@ public class ApplicationService implements ApplicationRepository{
     }
 
     @Override
-    public Application fetch(Integer adminNo) {
+    public Application fetch(Integer applicatiionNo) {
         for (Application app : appMap.values()) {
-            if (app.getAdminNo()==adminNo) {
+            if (app.getApplicationNo() == applicatiionNo) {
                 return app;
             }
         }
         return null;
+    }
+
+    @Override
+    public List<Application> fetchAllByAdmin(Integer adminNo) {
+        List<Application>  toReturn =   new ArrayList<>();
+        for (Application app : appMap.values()) {
+            if (app.getAdminNo() == adminNo) {
+                toReturn.add(app);
+            }
+        }
+        return toReturn;
     }
 
     @Override

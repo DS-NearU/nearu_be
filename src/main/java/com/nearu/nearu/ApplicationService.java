@@ -15,14 +15,15 @@ public class ApplicationService implements ApplicationRepository{
     }
 
     @Override
-    public Application fetch(Integer applicatiionNo) {
+    public Application fetch(Integer applicationNo) {
         for (Application app : appMap.values()) {
-            if (app.getApplicationNo() == applicatiionNo) {
+            if (app.getApplicationNo() == applicationNo) {
                 return app;
             }
         }
         return null;
     }
+
 
     @Override
     public List<Application> fetchAllByAdmin(Integer adminNo) {
@@ -33,6 +34,10 @@ public class ApplicationService implements ApplicationRepository{
             }
         }
         return toReturn;
+    }
+
+    public ArrayList<Application> fetchAll() {
+        return (ArrayList<Application>) appMap.values();
     }
 
     @Override

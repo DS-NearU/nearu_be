@@ -8,13 +8,13 @@ import lombok.Setter;
 public class StudApplication {
     private Integer userNo;
     private Integer applicationNo;
-    private Boolean status;
+    private Boolean isConfirmed;
 
     public StudApplication() {
 
     }
 
-    public StudApplication(Boolean status) {
-        this.status = status;
+    public StudApplication(Boolean isConfirmed) {
+        this.isConfirmed = isConfirmed;
     }
 }

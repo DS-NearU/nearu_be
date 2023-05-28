@@ -13,6 +13,13 @@ public class UserInfoService implements UserInfoRepository{
     public UserInfo fetch(Integer userNo) {
         return userInfoMap.get(userNo);
     }
+    public ArrayList<UserInfo> fetch(ArrayList<Integer> userNo) {
+        ArrayList<UserInfo> userInfos = new ArrayList<>();
+        for(Integer n : userNo) {
+            userInfos.add(userInfoMap.get(n));
+        }
+        return userInfos;
+    }
 
     @Override
     public void update(UserInfo info) {

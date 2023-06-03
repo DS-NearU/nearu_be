@@ -7,7 +7,7 @@ public class UserController {
     private final UserPwService userPwService = new UserPwService();
     private final NotificationsService notifService = new NotificationsService();
 
-    public void signUp(String userId, String pw, Boolean type, String name, Boolean gender, String email, String phNum, String emNum, String present, String cond, String simExp, Boolean purpose, Boolean emailNotif, Boolean msgNotif, Boolean kakaoNotif) {
+    public void signUp(String userId, String pw, UserType type, String name, Boolean gender, String email, String phNum, String emNum, String present, String cond, String simExp, Boolean purpose, Boolean emailNotif, Boolean msgNotif, Boolean kakaoNotif) {
         User u = new User(type, userId);
         if (userService.save(u)) { //passing by ref / passing by val
             UserInfo info = new UserInfo(name, gender, email, phNum, emNum, present, cond, simExp, purpose);

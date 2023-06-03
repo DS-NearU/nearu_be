@@ -1,12 +1,11 @@
 package com.nearu.nearu;
 
+import com.nearu.nearu.entity.User;
 import com.nearu.nearu.util.SESSION;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Getter;
 import lombok.Setter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.util.StopWatch;
 import org.springframework.web.servlet.HandlerMapping;
 

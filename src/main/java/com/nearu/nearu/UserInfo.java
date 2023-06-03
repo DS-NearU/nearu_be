@@ -17,7 +17,8 @@ public class UserInfo {
     private String condition;
     private String similarExp;
     private Boolean purpose;
-    private Double rating;
+    private Integer totRate = 0;
+    private Integer numRate = 0;
 
     public UserInfo() {
 
@@ -33,5 +34,15 @@ public class UserInfo {
         this.condition = condition;
         this.similarExp = similarExp;
         this.purpose = purpose;
+    }
+
+    public void addRating(Integer rating){
+        this.totRate += rating;
+        this.numRate++;
+    }
+
+    public void removeRating(Integer rating){
+        this.totRate -= rating;
+        this.numRate--;
     }
 }

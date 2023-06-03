@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 public class User {
     private Integer userNo;
-    private Boolean userType;
+    private UserType userType;
     private String userId;
 
     public User() {
@@ -16,7 +16,7 @@ public class User {
     public User(String userId) {
         this.userId = userId;
     }
-    public User(Boolean userType, String userId) {
+    public User(UserType userType, String userId) {
         this.userType = userType;
         this.userId = userId;
     }

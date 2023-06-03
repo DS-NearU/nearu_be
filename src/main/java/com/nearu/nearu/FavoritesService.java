@@ -27,6 +27,18 @@ public class FavoritesService implements FavoritesRepository{
     }
 
     @Override
+    public ArrayList<Favorites> fetchAll(Integer userNo) {
+        ArrayList<Favorites> favorites = new ArrayList<>();
+        for(Favorites f : favoritesMap.values()){
+            if(f.getUserNo().equals(userNo)){
+                favorites.add(f);
+            }
+        }
+        return favorites;
+    }
+
+
+    @Override
     public void update(Favorites fav) {
         favoritesMap.put(fav.getFavoriteNo(), fav);
     }

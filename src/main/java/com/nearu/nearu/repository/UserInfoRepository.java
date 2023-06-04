@@ -1,11 +1,8 @@
 package com.nearu.nearu.repository;
 
 import com.nearu.nearu.entity.UserInfo;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserInfoRepository {
-    void save(UserInfo info);
-    UserInfo fetch(Integer userNo);
-    void update (UserInfo info);
-    void delete (Integer userNo);
+public interface UserInfoRepository extends JpaRepository<UserInfo, Long>{
 
 }

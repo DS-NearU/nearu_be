@@ -1,10 +1,8 @@
 package com.nearu.nearu.repository;
 
 import com.nearu.nearu.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository {
-    boolean save(User u);
-    User fetch(String userId);
-    void update (User u);
-    void delete (Integer userNo);
+public interface UserRepository extends JpaRepository<User, Long>{
+
 }

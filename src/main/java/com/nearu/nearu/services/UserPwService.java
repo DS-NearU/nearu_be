@@ -5,7 +5,7 @@ import com.nearu.nearu.repository.UserPwRepository;
 
 import java.util.*;
 
-public class UserPwService implements UserPwRepository {
+public class UserPwService{
     private static Map<Integer, UserPw> userPwMap = new HashMap<>();
     @Override
     public void save(UserPw u) {

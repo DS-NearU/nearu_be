@@ -10,7 +10,7 @@ import com.nearu.nearu.services.UserInfoService;
 import com.nearu.nearu.services.UserPwService;
 import com.nearu.nearu.services.UserService;
 
-public class UserController {
+public class UserController{
 
     private final UserService userService = new UserService();
     private final UserInfoService userInfoService = new UserInfoService();

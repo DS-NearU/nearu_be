@@ -4,7 +4,7 @@ import com.nearu.nearu.entity.UserInfo;
 import com.nearu.nearu.repository.UserInfoRepository;
 
 import java.util.*;
-public class UserInfoService implements UserInfoRepository {
+public class UserInfoService{
     public static Map<Integer, UserInfo> userInfoMap = new HashMap<>();
 
     @Override

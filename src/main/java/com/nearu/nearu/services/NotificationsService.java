@@ -3,9 +3,8 @@ import com.nearu.nearu.entity.Notifications;
 import com.nearu.nearu.repository.NotificationsRepository;
 
 import java.util.*;
-public class NotificationsService implements NotificationsRepository {
+public class NotificationsService {
     public static Map<Integer, Notifications> notifMap = new HashMap<>();
-    @Override
     public boolean save(Notifications n) {
         for (Notifications notif : notifMap.values()) {
             if (notif.getUserNo().equals(n.getUserNo())) {

@@ -1,16 +1,18 @@
 package com.nearu.nearu.repository;
 
 import com.nearu.nearu.entity.Comment;
+import com.nearu.nearu.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.ArrayList;
 
-public interface CommentRepository
+public interface CommentRepository extends JpaRepository<Comment, Integer>
 {
-    void save (Comment c);
+    Integer countAllByQaNo(Integer qaNo);
+    ArrayList<Comment> findAllByQaNo (Integer qaNo);
+    void deleteAllByQaNo (Integer qaNo);
 
-    Comment fetch (Integer commentNo);
-    ArrayList<Comment> fetchAllByQa(Integer qaNo);
-    void update (Comment c);
-    void delete (Integer commentNo);
-    void deleteAll(Integer qaNo);
+    Comment findByCommentNo (Integer commentNo);
+    void deleteByCommentNo (Integer commentNo);
+
 }

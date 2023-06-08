@@ -1,10 +1,8 @@
 package com.nearu.nearu.repository;
 
 import com.nearu.nearu.entity.Notifications;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface NotificationsRepository {
-    boolean save(Notifications n);
-    Notifications fetch(Integer userNo);
-    void update (Notifications n);
-    void delete (Integer userNo);
+public interface NotificationsRepository extends JpaRepository<Notifications, Integer>{
+    Notifications findByUserNo(Integer userNo);
 }

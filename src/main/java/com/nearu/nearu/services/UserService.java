@@ -6,10 +6,7 @@ import com.nearu.nearu.entity.Notifications;
 import com.nearu.nearu.entity.User;
 import com.nearu.nearu.entity.UserInfo;
 import com.nearu.nearu.entity.UserPw;
-import com.nearu.nearu.repository.NotificationsRepository;
-import com.nearu.nearu.repository.UserInfoRepository;
-import com.nearu.nearu.repository.UserPwRepository;
-import com.nearu.nearu.repository.UserRepository;
+import com.nearu.nearu.repository.*;
 import com.nearu.nearu.request.UserDto;
 import org.springframework.stereotype.Service;
 
@@ -21,19 +18,7 @@ public class UserService extends OriginObject{
     private UserInfoRepository userInfoRepository;
     private UserPwRepository userPwRepository;
     private NotificationsRepository notificationsRepository;
-//    @Override
-//    public boolean save(User u) {
-//        for (User user : userMap.values()) {
-//            if (user.getUserId().equals(u.getUserId())) {
-//                return false;
-//            }
-//        }
-//        u.setUserNo(USER_NUM);
-//        userMap.put(USER_NUM, u);
-//        USER_NUM++;
-//        return true;
-//    }
-//
+    private FavoritesRepository favoritesRepository;
     public void saveUser(UserDto userDto){
         User user = new User();
         user.setUserId(userDto.getUserId());

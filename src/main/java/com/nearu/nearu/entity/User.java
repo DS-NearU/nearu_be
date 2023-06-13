@@ -7,12 +7,24 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
+
 @Getter
 @Setter
+@Entity
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+@Table(name = "user")
 public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_no")
     private Integer userNo;
+
+    @Column(name = "user_type")
     private UserType userType;
+
+    @Column(name = "user_id")
     private String userId;
 
     public User() {

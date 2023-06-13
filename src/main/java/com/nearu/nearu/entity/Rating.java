@@ -1,15 +1,36 @@
 package com.nearu.nearu.entity;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
+
 @Getter
 @Setter
+@Entity
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+@Table(name = "rating")
 public class Rating {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "rating_no")
     private Integer ratingNo;
+
+    @ManyToOne
+    @Column(name = "user_no")
     private Integer userNo;
+
+    @OneToOne
+    @Column(name = "application_no")
     private Integer applicationNo;
+
+    @Column(name = "rating")
     private Integer rating;
+
+    @Column(name = "comment", columnDefinition = "MEDIUMTEXT")
     private String comment;
 
     public Rating () {

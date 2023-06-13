@@ -1,23 +1,60 @@
 package com.nearu.nearu.entity;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
+
 @Getter
 @Setter
+@Entity
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+@Table(name = "user_info")
 public class UserInfo {
+
+    @Id
+    @OneToOne
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_no")
     private Integer userNo;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "gender")
     private Boolean gender;
+
+    @Column(name = "email")
     private String email;
+
+    @Column(name = "address", columnDefinition = "MEDIUMTEXT")
+    private String address;
+
+    @Column(name = "phone_number")
     private String phoneNumber;
+
+    @Column(name = "emergency_number")
     private String emerPhoneNumber;
+
+    @Column(name = "presentation", columnDefinition = "MEDIUMTEXT")
     private String presentation;
+
+    @Column(name = "conditions", columnDefinition = "MEDIUMTEXT")
     private String condition;
+
+    @Column(name = "similar_exp")
     private String similarExp;
+
+    @Column(name = "purpose")
     private Boolean purpose;
+
+    @Column(name = "tot_rate")
     private Integer totRate = 0;
+
+    @Column(name = "num_rate")
     private Integer numRate = 0;
 
     public UserInfo() {

@@ -23,11 +23,19 @@ public class Application {
     @Column(name = "status")
     private Boolean status;
 
-    @Column(name = "due_date")
+    @Column(name = "due_date", columnDefinition = "DATETIME")
     private LocalDateTime dueDate;
+
+    @Column(name = "created_at", columnDefinition = "DATETIME")
     private LocalDateTime createdAt;
+
+    @Column(name = "location", columnDefinition = "MEDIUMTEXT")
     private String location;
+
+    @Column(name = "conditions", columnDefinition = "MEDIUMTEXT")
     private String conditions;
+
+    @Column(name = "d_day", columnDefinition = "DATETIME")
     private LocalDateTime dDay;
 
     @ManyToOne

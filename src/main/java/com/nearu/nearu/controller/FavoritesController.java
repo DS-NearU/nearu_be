@@ -1,5 +1,4 @@
 package com.nearu.nearu.controller;
-import com.nearu.nearu.services.FavoritesService;
 import com.nearu.nearu.entity.Favorites;
 
 import java.util.*;

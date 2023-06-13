@@ -11,19 +11,19 @@ import lombok.Setter;
 @Setter
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class UserDto {
-    String userId;
-    String password;
-    String type;
-    String name;
-    Boolean gender;
-    String email;
-    String phoneNum;
-    String emergencyNum;
-    String presentation;
-    String condition;
-    String experience;
-    Boolean purpose;
-    Boolean emailNotification;
-    Boolean msgNotification;
-    Boolean kakaoNotification;
+    private String userId;
+    private String password;
+    private String type;
+    private String name;
+    private Boolean gender;
+    private String email;
+    private String phoneNum;
+    private String emergencyNum;
+    private String presentation;
+    private String condition;
+    private String experience;
+    private Boolean purpose;
+    private Boolean emailNotification;
+    private Boolean msgNotification;
+    private Boolean kakaoNotification;
 }

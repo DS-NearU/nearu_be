@@ -15,9 +15,12 @@ import javax.persistence.*;
 public class Notifications {
 
     @Id
-    @OneToOne
     @Column(name = "user_no")
     private Integer userNo;
+
+    @ManyToOne
+    @JoinColumn(name = "user_no", insertable = false, updatable = false)
+    private User user;
 
     @Column(name = "email_notif")
     private Boolean emailNotif;

@@ -1,4 +1,4 @@
-package com.nearu.nearu;
+package com.nearu.nearu.entity.types;
 
 import lombok.Getter;
 @Getter
@@ -17,6 +17,16 @@ public enum UserType {
             return null;
         for(UserType ut : UserType.values()){
             if(ut.getType().equals(type))
+                return ut;
+        }
+        return null;
+    }
+
+    public static UserType getTypeCode(String type){
+        if(type == null)
+            return null;
+        for(UserType ut : UserType.values()){
+            if(ut.getTypeCode().equals(type))
                 return ut;
         }
         return null;

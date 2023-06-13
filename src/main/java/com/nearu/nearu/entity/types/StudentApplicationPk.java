@@ -1,4 +1,4 @@
-package com.nearu.nearu;
+package com.nearu.nearu.entity.types;
 
 import lombok.Getter;
 import lombok.Setter;

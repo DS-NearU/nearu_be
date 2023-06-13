@@ -1,15 +1,14 @@
 package com.nearu.nearu.services;
 
 import com.nearu.nearu.OriginObject;
-import com.nearu.nearu.UserType;
 import com.nearu.nearu.entity.*;
+import com.nearu.nearu.entity.types.UserType;
 import com.nearu.nearu.repository.*;
 import com.nearu.nearu.request.FavoritesDto;
-import com.nearu.nearu.request.QaCountsResponse;
 import com.nearu.nearu.request.UserDto;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
 
 @Service
 public class UserService extends OriginObject{

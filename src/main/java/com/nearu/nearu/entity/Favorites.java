@@ -19,9 +19,12 @@ public class Favorites {
     @Column(name = "favorite_no")
     private Integer favoriteNo;
 
-    @ManyToOne
     @Column(name = "user_no")
     private Integer userNo;
+
+    @ManyToOne
+    @JoinColumn(name = "user_no", insertable = false, updatable = false)
+    private User user;
 
     @Column(name = "address")
     private String address;

@@ -20,9 +20,12 @@ public class Qa {
     @Column(name = "qa_no")
     private Integer qaNo;
 
-    @ManyToOne
     @Column(name = "user_no")
     private Integer userNo;
+
+    @ManyToOne
+    @JoinColumn(name = "user_no", insertable = false, updatable = false)
+    private User user;
 
     @Column(name = "anonymous")
     private Boolean anonymous;

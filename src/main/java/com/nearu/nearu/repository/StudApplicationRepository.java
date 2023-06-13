@@ -1,17 +1,12 @@
 package com.nearu.nearu.repository;
+import com.nearu.nearu.entity.Rating;
 import com.nearu.nearu.entity.StudApplication;
+import com.nearu.nearu.entity.types.StudentApplicationPk;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.*;
 
-public interface StudApplicationRepository {
-    void save(StudApplication s);
-    ArrayList<StudApplication> fetch(Integer applicationNo);
-
-    StudApplication fetch (Integer applicationNo, Integer userNo);
-    void update(StudApplication u);
-
-    void delete(Integer applicationNo, Integer userNo);
-
-    void deleteAllByApplication(Integer applicationNo);
+public interface StudApplicationRepository extends JpaRepository<StudApplication, StudentApplicationPk> {
+    StudApplication findByApplicationNoAndUserNo(Integer applicationNo, Integer userNo);
 
 }

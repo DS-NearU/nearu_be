@@ -7,4 +7,6 @@ import java.util.*;
 
 public interface RatingRepository extends JpaRepository<Rating, Integer> {
     ArrayList<Rating> findAllByUserNo(Integer userNo);
+    ArrayList<Rating> findAllByApplication_AdminNo(Integer adminNo);
+    void deleteByRatingNo(Integer ratingNo);
 }

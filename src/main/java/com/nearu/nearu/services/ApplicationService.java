@@ -1,55 +1,36 @@
 package com.nearu.nearu.services;
 
 import com.nearu.nearu.entity.Application;
+import com.nearu.nearu.entity.StudApplication;
 import com.nearu.nearu.repository.ApplicationRepository;
+import com.nearu.nearu.repository.StudApplicationRepository;
+import com.nearu.nearu.request.ApplicationDto;
+import com.nearu.nearu.request.StudApplicationDto;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
-public class ApplicationService implements ApplicationRepository {
-    public static Map<Integer, Application> appMap = new HashMap<>();
-    public static int APP_NUM = 1;
+public class ApplicationService{
+    private ApplicationRepository applicationRepository;
+    private StudApplicationRepository studApplicationRepository;
 
-    @Override
-    public boolean save(Application a) {
-        a.setAdminNo(APP_NUM);
-        appMap.put(APP_NUM, a);
-        APP_NUM++;
-        return true;
+    public void saveApplication(ApplicationDto a){
+        Application app = new Application();
+        app.setCreatedAt(LocalDateTime.now());
+        app.setAdminNo(a.getAdminNo());
+        app.setConditions(a.getConditions());
+        app.setDDay(a.getDDay());
+        app.setLocation(a.getLocation());
+        app.setDueDate(a.getDueDate());
+        app.setStatus(a.getStatus());
+        applicationRepository.save(app);
     }
 
-    @Override
-    public Application fetch(Integer applicationNo) {
-        for (Application app : appMap.values()) {
-            if (app.getApplicationNo() == applicationNo) {
-                return app;
-            }
-        }
-        return null;
-    }
-
-
-    @Override
-    public List<Application> fetchAllByAdmin(Integer adminNo) {
-        List<Application>  toReturn =   new ArrayList<>();
-        for (Application app : appMap.values()) {
-            if (app.getAdminNo() == adminNo) {
-                toReturn.add(app);
-            }
-        }
-        return toReturn;
-    }
-
-    public ArrayList<Application> fetchAll() {
-        return (ArrayList<Application>) appMap.values();
-    }
-
-    @Override
-    public void update(Application a) {
-        appMap.put(a.getAdminNo(), a);
-    }
-
-    @Override
-    public void delete(Integer adminNo) {
-        appMap.remove(adminNo);
+    public void saveStudApplication(StudApplicationDto stu){
+        StudApplication stud = new StudApplication();
+        stud.setUserNo(stu.getUserNo());
+        stud.setApplicationNo(stu.getApplicationNo());
+        stud.setIsConfirmed(false);
+        studApplicationRepository.save(stud);
     }
 }

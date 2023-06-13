@@ -1,14 +1,14 @@
 package com.nearu.nearu.services;
 
 import com.nearu.nearu.OriginObject;
+import com.nearu.nearu.entity.*;
 import com.nearu.nearu.entity.types.UserType;
-import com.nearu.nearu.entity.Notifications;
-import com.nearu.nearu.entity.User;
-import com.nearu.nearu.entity.UserInfo;
-import com.nearu.nearu.entity.UserPw;
 import com.nearu.nearu.repository.*;
+import com.nearu.nearu.request.FavoritesDto;
 import com.nearu.nearu.request.UserDto;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 
 @Service
 public class UserService extends OriginObject{
@@ -61,6 +61,8 @@ public class UserService extends OriginObject{
     public void leave(Integer userNo){
         userInfoRepository.deleteByUserNo(userNo);
         userPwRepository.deleteByUserNo(userNo);
+        favoritesRepository.deleteAllByUserNo(userNo);
+        notificationsRepository.deleteByUserNo(userNo);
         userRepository.deleteByUserNo(userNo);
     }
 
@@ -109,23 +111,27 @@ public class UserService extends OriginObject{
         u.setMsgNotification(notif.getMsgNotif());
         return u;
     }
-//    @Override
-//    public User fetch(String s) {
-//        for (User user : userMap.values()) {
-//            if (user.getUserId().equals(s)) {
-//                return user;
-//            }
-//        }
-//        return null;
-//    }
-//
-//    @Override
-//    public void update(User u) {
-//        userMap.put(u.getUserNo(), u);
-//    }
-//
-//    @Override
-//    public void delete(Integer userNo) {
-//        userMap.remove(userNo);
-//    }
+
+    public void saveFavorites(FavoritesDto f) {
+        Favorites favorites = new Favorites();
+        favorites.setUserNo(f.getUserNo());
+        favorites.setAddress(f.getAddress());
+        favoritesRepository.save(favorites);
+    }
+
+    public ArrayList<Favorites> fetchAllFavorites (Integer userNo) {
+        return favoritesRepository.findAllByUserNo(userNo);
+    }
+    public void updateFavorites(FavoritesDto fav){
+        Integer favoriteNo = fav.getFavoriteNo();
+        Favorites favorites = favoritesRepository.findByFavoriteNo(favoriteNo);
+        favorites.setAddress(fav.getAddress());
+        favoritesRepository.save(favorites);
+    }
+
+    public void deleteFavorites (Integer favoriteNo){
+        favoritesRepository.deleteByFavoriteNo(favoriteNo);
+    }
+
+
 }

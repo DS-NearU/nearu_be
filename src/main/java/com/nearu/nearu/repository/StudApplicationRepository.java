@@ -8,5 +8,6 @@ import java.util.*;
 
 public interface StudApplicationRepository extends JpaRepository<StudApplication, StudentApplicationPk> {
     StudApplication findByApplicationNoAndUserNo(Integer applicationNo, Integer userNo);
-
+    void deleteAllByApplicationNo(Integer applicationNo);
+    void deleteByApplicationNoAndUserNo(Integer applicationNo, Integer userNo);
 }

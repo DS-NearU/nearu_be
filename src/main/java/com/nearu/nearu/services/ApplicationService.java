@@ -33,4 +33,36 @@ public class ApplicationService{
         stud.setIsConfirmed(false);
         studApplicationRepository.save(stud);
     }
+
+    public void updateApplication(ApplicationDto a){
+        Application app = applicationRepository.findByApplicationNo(a.getApplicationNo());
+        app.setDDay(a.getDDay());
+        app.setConditions(a.getConditions());
+        app.setStatus(a.getStatus());
+        app.setLocation(a.getLocation());
+        app.setDueDate(a.getDueDate());
+        applicationRepository.save(app);
+    }
+
+    public void updateStudApplication(StudApplicationDto stu){
+        StudApplication stud = studApplicationRepository.findByApplicationNoAndUserNo(stu.getApplicationNo(), stu.getUserNo());
+        stud.setIsConfirmed(stu.getIsConfirmed());
+        studApplicationRepository.save(stud);
+    }
+
+    public Application fetchApplication(Integer applicationNo){
+        return applicationRepository.findByApplicationNo(applicationNo);
+    }
+
+    public StudApplication fetchStudApplication(Integer applicationNo, Integer userNo){
+        return studApplicationRepository.findByApplicationNoAndUserNo(applicationNo, userNo);
+    }
+
+    public void deleteApplication(Integer applicationNo){
+        studApplicationRepository.deleteAllByApplicationNo(applicationNo);
+        applicationRepository.deleteByApplicationNo(applicationNo);
+    }
+     public void deleteStudApplication(Integer applicationNo, Integer userNo){
+        studApplicationRepository.deleteByApplicationNoAndUserNo(applicationNo, userNo);
+     }
 }

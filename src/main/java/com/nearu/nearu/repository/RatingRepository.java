@@ -1,15 +1,10 @@
 package com.nearu.nearu.repository;
+import com.nearu.nearu.entity.Qa;
 import com.nearu.nearu.entity.Rating;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.*;
 
-public interface RatingRepository {
-    void save(Rating r);
-    ArrayList<Rating> fetchAll(Integer userNo);
-
-    Rating fetch (Integer ratingNo);
-
-    void delete (Integer r);
-
-
+public interface RatingRepository extends JpaRepository<Rating, Integer> {
+    ArrayList<Rating> findAllByUserNo(Integer userNo);
 }

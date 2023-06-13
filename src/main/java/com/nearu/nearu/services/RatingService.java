@@ -1,44 +1,30 @@
 package com.nearu.nearu.services;
+import com.nearu.nearu.OriginObject;
 import com.nearu.nearu.entity.Rating;
 import com.nearu.nearu.repository.RatingRepository;
+import com.nearu.nearu.request.RatingDto;
+
+import java.util.ArrayList;
 
 import java.util.*;
 
-public class RatingService implements RatingRepository {
+public class RatingService extends OriginObject {
+    private RatingRepository ratingRepository;
 
-    public static Map<Integer, Rating> ratingMap = new HashMap<>();
-
-    public static int RATE_NUM = 1;
-
-    @Override
-    public void save(Rating r) {
-        for(Rating rate : ratingMap.values()){
-            if((rate.getApplicationNo().equals(r.getApplicationNo())) && (rate.getUserNo().equals(r.getUserNo()))) {
-                return;
-            }
-        }
-        r.setUserNo(RATE_NUM);
-        ratingMap.put(RATE_NUM, r);
-        RATE_NUM++;
+    public void saveRating(RatingDto r){
+        Rating rating = new Rating();
+        rating.setRating(r.getRating());
+        rating.setUserNo(r.getUserNo());
+        rating.setComment(r.getComment());
+        rating.setApplicationNo(r.getApplicationNo());
+        ratingRepository.save(rating);
     }
 
-    @Override
-    public Rating fetch (Integer ratingNo){
-        return ratingMap.get(ratingNo);
-    }
-    @Override
-    public ArrayList<Rating> fetchAll(Integer userNo) {
-        ArrayList<Rating> allRatings = new ArrayList<Rating>();
-        for (Rating r : ratingMap.values()) {
-            if (r.getUserNo().equals(userNo)) {
-                allRatings.add(r);
-            }
-        }
-        return allRatings;
+    public ArrayList<Rating> fetchAllVolunteer(Integer userNo){
+        return ratingRepository.findAllByUserNo(userNo);
     }
 
-    @Override
-    public void delete(Integer r) {
-        ratingMap.remove(r);
+    public ArrayList<Rating> fetchAllNeeder(Integer applicationNo){
+
     }
 }

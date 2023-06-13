@@ -2,9 +2,9 @@ package com.nearu.nearu.entity;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.nearu.nearu.UserType;
+import com.nearu.nearu.entity.types.UserType;
+import com.nearu.nearu.entity.types.converter.UserTypeConverter;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -21,7 +21,11 @@ public class User {
     @Column(name = "user_no")
     private Integer userNo;
 
-    @Column(name = "user_type")
+    @Column(name = "user_type", columnDefinition = "ENUM", insertable = false, updatable = false)
+    private String userTypeCode;
+
+    @Column(name = "user_type", columnDefinition = "ENUM")
+    @Convert(converter = UserTypeConverter.class)
     private UserType userType;
 
     @Column(name = "user_id")

@@ -19,9 +19,12 @@ public class Rating {
     @Column(name = "rating_no")
     private Integer ratingNo;
 
-    @ManyToOne
     @Column(name = "user_no")
     private Integer userNo;
+
+    @ManyToOne
+    @JoinColumn(name = "user_no", insertable = false, updatable = false)
+    private User user;
 
     @OneToOne
     @Column(name = "application_no")

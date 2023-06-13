@@ -16,10 +16,13 @@ import javax.persistence.*;
 public class UserInfo {
 
     @Id
-    @OneToOne
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_no")
     private Integer userNo;
+
+    @OneToOne
+    @JoinColumn(name = "user_no", insertable = false, updatable = false)
+    private User user;
 
     @Column(name = "name")
     private String name;

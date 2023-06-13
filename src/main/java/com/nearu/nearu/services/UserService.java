@@ -1,7 +1,7 @@
 package com.nearu.nearu.services;
 
 import com.nearu.nearu.OriginObject;
-import com.nearu.nearu.UserType;
+import com.nearu.nearu.entity.types.UserType;
 import com.nearu.nearu.entity.Notifications;
 import com.nearu.nearu.entity.User;
 import com.nearu.nearu.entity.UserInfo;
@@ -9,8 +9,6 @@ import com.nearu.nearu.entity.UserPw;
 import com.nearu.nearu.repository.*;
 import com.nearu.nearu.request.UserDto;
 import org.springframework.stereotype.Service;
-
-import java.util.*;
 
 @Service
 public class UserService extends OriginObject{

@@ -38,9 +38,12 @@ public class Application {
     @Column(name = "d_day", columnDefinition = "DATETIME")
     private LocalDateTime dDay;
 
-    @ManyToOne
     @Column(name = "admin_no")
     private Integer adminNo;
+
+    @ManyToOne
+    @JoinColumn(name = "admin_no", insertable = false, updatable = false)
+    private User admin;
 
     public Application() {
     }

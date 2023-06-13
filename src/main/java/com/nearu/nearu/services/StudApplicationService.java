@@ -1,6 +1,6 @@
 package com.nearu.nearu.services;
 
-import com.nearu.nearu.StudentApplicationPk;
+import com.nearu.nearu.entity.types.StudentApplicationPk;
 import com.nearu.nearu.entity.StudApplication;
 import com.nearu.nearu.repository.StudApplicationRepository;
 

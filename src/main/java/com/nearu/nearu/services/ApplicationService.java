@@ -1,9 +1,13 @@
 package com.nearu.nearu.services;
 
+import com.amazonaws.services.fms.model.App;
 import com.nearu.nearu.entity.Application;
 import com.nearu.nearu.entity.StudApplication;
+import com.nearu.nearu.entity.UserInfo;
 import com.nearu.nearu.repository.ApplicationRepository;
 import com.nearu.nearu.repository.StudApplicationRepository;
+import com.nearu.nearu.repository.UserInfoRepository;
+import com.nearu.nearu.repository.UserRepository;
 import com.nearu.nearu.request.ApplicationDto;
 import com.nearu.nearu.request.ApplicationReadAllResponse;
 import com.nearu.nearu.request.ApplicationReadResponse;
@@ -20,6 +24,7 @@ import java.util.*;
 public class ApplicationService{
     private final ApplicationRepository applicationRepository;
     private final StudApplicationRepository studApplicationRepository;
+    private final UserInfoRepository userInfoRepository;
 
     @Transactional
     public void saveApplication(ApplicationDto a){
@@ -36,6 +41,9 @@ public class ApplicationService{
 
     @Transactional
     public void saveStudApplication(StudApplicationDto stu){
+        if(studApplicationRepository.findByApplicationNoAndUserNo(stu.getApplicationNo(), stu.getUserNo()){
+            return;
+        }
         StudApplication stud = new StudApplication();
         stud.setUserNo(stu.getUserNo());
         stud.setApplicationNo(stu.getApplicationNo());
@@ -61,13 +69,35 @@ public class ApplicationService{
         studApplicationRepository.save(stud);
     }
 
-    public ApplicationReadAllResponse fetchAllApplications(Integer applicationNo){
-
-        return applicationRepository.findByApplicationNo(applicationNo);
+    public ArrayList<ApplicationReadAllResponse> fetchAllApplications(){
+        ArrayList<Application> arrList = (ArrayList<Application>) applicationRepository.findAll();
+        ArrayList<ApplicationReadAllResponse> list = new ArrayList<>();
+        for(int i = 0; i<arrList.size(); i++){
+            ApplicationReadAllResponse res = new ApplicationReadAllResponse();
+            res.setApp(arrList.get(i));
+            res.setNumberApplicants(studApplicationRepository.countAllByApplicationNo(arrList.get(i).getApplicationNo()));
+            Integer userNo = arrList.get(i).getAdminNo();
+            res.setName(userInfoRepository.findByUserNo(userNo).getName());
+            list.add(res);
+        }
+        return list;
     }
 
-    public ApplicationReadResponse fetchStudApplication(Integer applicationNo, Integer userNo){
-        return studApplicationRepository.findByApplicationNoAndUserNo(applicationNo, userNo);
+    public ApplicationReadResponse fetchApplicants(Integer applicationNo){
+        ApplicationReadResponse res = new ApplicationReadResponse();
+        Application app = applicationRepository.findByApplicationNo(applicationNo)
+        Integer adminNo = app.getAdminNo();
+        res.setName(userInfoRepository.findByUserNo(adminNo).getName());
+        res.setApp(app);
+        ArrayList<UserInfo> applicants = new ArrayList<>();
+        ArrayList<StudApplication> studApplications = studApplicationRepository.findAllByApplicationNo(applicationNo);
+        for(int i = 0; i<studApplications.size(); i++){
+            Integer userNo = studApplications.get(i).getUserNo();
+            UserInfo info = userInfoRepository.findByUserNo(userNo);
+            applicants.add(info);
+        }
+        res.setApplicants(applicants);
+        return res;
     }
 
     @Transactional
@@ -78,6 +108,13 @@ public class ApplicationService{
 
     @Transactional
     public void deleteStudApplication(Integer applicationNo, Integer userNo){
-        studApplicationRepository.deleteByApplicationNoAndUserNo(applicationNo, userNo);
+        Application a = applicationRepository.findByApplicationNo(applicationNo);
+        if (LocalDateTime.now().isBefore(a.getDDay().minusDays(1L))) {
+            studApplicationRepository.deleteByApplicationNoAndUserNo(applicationNo, userNo);
+            if (!a.getStatus()) {
+                a.setStatus(true);
+                applicationRepository.save(a);
+            }
+        }
      }
 }

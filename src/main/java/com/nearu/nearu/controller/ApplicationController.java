@@ -3,6 +3,7 @@ package com.nearu.nearu.controller;
 import com.nearu.nearu.OriginObject;
 import com.nearu.nearu.SessionRequest;
 import com.nearu.nearu.request.ApplicationDto;
+import com.nearu.nearu.request.StudApplicationDto;
 import com.nearu.nearu.services.ApplicationService;
 import com.nearu.nearu.entity.Application;
 import com.nearu.nearu.entity.StudApplication;
@@ -42,46 +43,26 @@ public class ApplicationController extends OriginObject {
     }
 
     @GetMapping("/applicants")
-    public ApplicationReadResponse read(SessionRequest request){
+    public ApplicationReadResponse readApplicants(SessionRequest request){
         ApplicationDto map = map(request.getParam(), ApplicationDto.class);
-        return ApplicationService.fetchApplication(map.getApplicationNo());
+        return applicationService.fetchApplicants(map.getApplicationNo());
     }
 
+    @GetMapping("/applications")
     public ArrayList<ApplicationReadAllResponse> readAll() {
-        ArrayList<ApplicationReadAllResponse> responses = new ArrayList<>();
-        ArrayList<Application> applications = applicationService.fetchAll();
-        for (int i = 0; i < applications.size(); i++) {
-            ApplicationReadAllResponse response = new ApplicationReadAllResponse();
-            Integer applicationNo = applications.get(i).getApplicationNo();
-            Integer adminNo = applicationService.fetch(applicationNo).getAdminNo();
-            response.setName(userInfoService.fetch(adminNo).getName());
-            response.setApp(applicationService.fetch(applicationNo));
-            ArrayList<StudApplication> applicants = studApplicationService.fetch(applicationNo);
-            response.setNumberApplicants(applicants.size());
-            responses.add(response);
-        }
-        return responses;
+        return applicationService.fetchAllApplications();
     }
 
-    public void register (Integer userNo, Integer applicationNo) {
-        if (!applicationService.fetch(applicationNo).getStatus()) {
-            return;
-        }
-        StudApplication app = new StudApplication();
-        app.setUserNo(userNo);
-        app.setApplicationNo(applicationNo);
-        app.setIsConfirmed(false);
-        studApplicationService.save(app);
+    @PostMapping("/register")
+    public void register (SessionRequest request) {
+        StudApplicationDto map = map(request.getParam(), StudApplicationDto.class);
+        applicationService.saveStudApplication(map);
     }
 
-    public void cancel (Integer userNo, Integer applicationNo) {
-        Application a = applicationService.fetch(applicationNo);
-        if (LocalDateTime.now().isBefore(a.getDDay().minusDays(1L))) {
-            studApplicationService.delete(applicationNo, userNo);
-            if (!a.getStatus()) {
-                a.setStatus(true);
-            }
-        }
+    @DeleteMapping("/cancel")
+    public void cancel (SessionRequest request) {
+        StudApplicationDto map = map(request.getParam(), StudApplicationDto.class);
+        applicationService.deleteStudApplication(map.getApplicationNo(), map.getUserNo());
     }
 
     public ArrayList<Application> viewMyApplications (Integer userNo) {

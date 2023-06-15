@@ -1,6 +1,5 @@
 package com.nearu.nearu.controller;
 
-import com.nearu.nearu.services.CommentService;
 import com.nearu.nearu.services.QaService;
 import com.nearu.nearu.entity.Comment;
 import com.nearu.nearu.entity.Qa;

@@ -1,8 +1,6 @@
 package com.nearu.nearu.controller;
 
 import com.nearu.nearu.services.ApplicationService;
-import com.nearu.nearu.services.StudApplicationService;
-import com.nearu.nearu.services.UserInfoService;
 import com.nearu.nearu.entity.Application;
 import com.nearu.nearu.entity.StudApplication;
 import com.nearu.nearu.entity.UserInfo;

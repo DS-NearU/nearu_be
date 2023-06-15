@@ -2,8 +2,6 @@ package com.nearu.nearu.controller;
 
 import com.nearu.nearu.entity.UserInfo;
 import com.nearu.nearu.entity.types.UserType;
-import com.nearu.nearu.services.UserInfoService;
-import com.nearu.nearu.services.UserPwService;
 import com.nearu.nearu.services.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

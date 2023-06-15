@@ -1,6 +1,5 @@
 package com.nearu.nearu.controller;
 import com.nearu.nearu.services.RatingService;
-import com.nearu.nearu.services.UserInfoService;
 import com.nearu.nearu.entity.Rating;
 import com.nearu.nearu.entity.UserInfo;
 

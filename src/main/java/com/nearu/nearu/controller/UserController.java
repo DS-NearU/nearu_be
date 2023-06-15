@@ -5,9 +5,6 @@ import com.nearu.nearu.entity.User;
 import com.nearu.nearu.entity.UserInfo;
 import com.nearu.nearu.entity.UserPw;
 import com.nearu.nearu.entity.types.UserType;
-import com.nearu.nearu.services.NotificationsService;
-import com.nearu.nearu.services.UserInfoService;
-import com.nearu.nearu.services.UserPwService;
 import com.nearu.nearu.services.UserService;
 
 public class UserController{

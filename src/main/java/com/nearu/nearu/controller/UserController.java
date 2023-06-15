@@ -1,33 +1,29 @@
 package com.nearu.nearu.controller;
 
+import com.nearu.nearu.OriginObject;
+import com.nearu.nearu.SessionRequest;
 import com.nearu.nearu.entity.Notifications;
 import com.nearu.nearu.entity.User;
 import com.nearu.nearu.entity.UserInfo;
 import com.nearu.nearu.entity.UserPw;
 import com.nearu.nearu.entity.types.UserType;
+import com.nearu.nearu.request.UserDto;
 import com.nearu.nearu.services.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
-public class UserController{
+@RestController
+@RequiredArgsConstructor
+public class UserController extends OriginObject {
 
-    private final UserService userService = new UserService();
-    private final UserInfoService userInfoService = new UserInfoService();
-    private final UserPwService userPwService = new UserPwService();
-    private final NotificationsService notifService = new NotificationsService();
+    private final UserService userService;
 
-    public void signUp(String userId, String pw, UserType type, String name, Boolean gender, String email, String phNum, String emNum, String present, String cond, String simExp, Boolean purpose, Boolean emailNotif, Boolean msgNotif, Boolean kakaoNotif) {
-        User u = new User(type, userId);
-        if (userService.save(u)) { //passing by ref / passing by val
-            UserInfo info = new UserInfo(name, gender, email, phNum, emNum, present, cond, simExp, purpose);
-            info.setUserNo(u.getUserNo());
-            userInfoService.save(info);
-            UserPw p = new UserPw(pw);
-            p.setUserNo(u.getUserNo());
-            userPwService.save(p);
-            Notifications n = new Notifications(emailNotif, msgNotif, kakaoNotif);
-            n.setUserNo(u.getUserNo());
-            notifService.save(n);
-        }
+    @PostMapping("/sign-up")
+    public void signUp(SessionRequest request) {
+        UserDto map = map(request.getParam(), UserDto.class);
+        userService.saveUser(map);
     }
+
 
     public boolean signIn(String userId, String pw){
         Integer n = userService.fetch(userId).getUserNo();

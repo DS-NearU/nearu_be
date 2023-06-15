@@ -1,58 +1,50 @@
 package com.nearu.nearu.controller;
 
+import com.nearu.nearu.OriginObject;
+import com.nearu.nearu.SessionRequest;
+import com.nearu.nearu.request.ApplicationDto;
 import com.nearu.nearu.services.ApplicationService;
 import com.nearu.nearu.entity.Application;
 import com.nearu.nearu.entity.StudApplication;
 import com.nearu.nearu.entity.UserInfo;
 import com.nearu.nearu.request.ApplicationReadAllResponse;
 import com.nearu.nearu.request.ApplicationReadResponse;
+import com.nearu.nearu.services.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class ApplicationController {
-    private final ApplicationService applicationService = new ApplicationService();
+@RestController
+@RequiredArgsConstructor
+public class ApplicationController extends OriginObject {
+    private final ApplicationService applicationService;
+    private final UserService userService;
 
-    private final StudApplicationService studApplicationService = new StudApplicationService();
 
-    private final UserInfoService userInfoService = new UserInfoService();
-
-
-    public void upload (LocalDateTime dueDate, String location, String conditions, LocalDateTime dDay, Integer adminNo) {
-        Application app = new Application (dueDate, location, conditions, dDay, adminNo);
-        app.setStatus(true); // true is open
-        app.setCreatedAt(LocalDateTime.now());
-        applicationService.save(app);
+    @PostMapping("/application")
+    public void upload (SessionRequest request) {
+        ApplicationDto map = map(request.getParam(), ApplicationDto.class);
+        applicationService.saveApplication(map);
     }
 
-    public void edit (Integer applicationNo, LocalDateTime dueDate, String location, String conditions, LocalDateTime dDay) {
-        Application app = applicationService.fetch(applicationNo);
-        app.setDueDate(dueDate);
-        app.setLocation(location);
-        app.setConditions(conditions);
-        app.setDDay(dDay);
-        applicationService.update(app);
+    @PutMapping("/application")
+    public void edit (SessionRequest request) {
+        ApplicationDto map = map(request.getParam(), ApplicationDto.class);
+        applicationService.updateApplication(map);
     }
 
-    public void delete(Integer applicationNo) {
-        studApplicationService.deleteAllByApplication(applicationNo);
-        applicationService.delete(applicationNo);
+    @DeleteMapping("/application")
+    public void delete(SessionRequest request) {
+        ApplicationDto map = map(request.getParam(), ApplicationDto.class);
+        applicationService.deleteApplication(map.getApplicationNo());
     }
 
-    public ApplicationReadResponse read(Integer applicationNo){
-        ApplicationReadResponse response = new ApplicationReadResponse();
-
-        Integer adminNo = applicationService.fetch(applicationNo).getAdminNo();
-        response.setName(userInfoService.fetch(adminNo).getName());
-        response.setApp(applicationService.fetch(applicationNo));
-        ArrayList<StudApplication> applicants = studApplicationService.fetch(applicationNo);
-        ArrayList<Integer> userNumbers = new ArrayList<>();
-        for(StudApplication a : applicants) {
-            userNumbers.add(a.getUserNo());
-        }
-        ArrayList<UserInfo> applicantsInfo = userInfoService.fetch(userNumbers);
-        response.setApplicants(applicantsInfo);
-        return response;
+    @GetMapping("/applicants")
+    public ApplicationReadResponse read(SessionRequest request){
+        ApplicationDto map = map(request.getParam(), ApplicationDto.class);
+        return ApplicationService.fetchApplication(map.getApplicationNo());
     }
 
     public ArrayList<ApplicationReadAllResponse> readAll() {

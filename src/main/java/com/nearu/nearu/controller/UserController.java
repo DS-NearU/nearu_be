@@ -25,41 +25,26 @@ public class UserController extends OriginObject {
     }
 
 
-    public boolean signIn(String userId, String pw){
-        Integer n = userService.fetch(userId).getUserNo();
-        if(userPwService.fetch(n).getPassword().equals(pw))
-        {
-            return true;
-        }
-        return false;
+    @GetMapping("/sign-in")
+    public boolean signIn(SessionRequest request){
+        UserDto map = map(request.getParam(), UserDto.class);
+        return userService.match(map.getUserId(), map.getPassword());
     }
 
-    public UserInfo viewProfile (String userId) {
-        Integer n = userService.fetch(userId).getUserNo();
-        return userInfoService.fetch(n);
+    @GetMapping("/profile")
+    public UserInfo viewProfile (SessionRequest request) {
+        return userService.fetch(request.getSession().getUserNo());
     }
 
-    public void editProfile (String userId, String pw, String name, Boolean gender, String email, String phNum, String emNum, String present, String cond, String simExp, Boolean purpose, Boolean emailNotif, Boolean msgNotif, Boolean kakaoNotif) {
-        Integer n = userService.fetch(userId).getUserNo();
-
-        UserInfo info = new UserInfo(name, gender, email, phNum, emNum, present, cond, simExp, purpose);
-        info.setUserNo(n);
-        userInfoService.update(info);
-        UserPw p = new UserPw(pw);
-        p.setUserNo(n);
-        userPwService.update(p);
-        Notifications no = new Notifications(emailNotif, msgNotif, kakaoNotif);
-        no.setUserNo(n);
-        notifService.save(no);
-
+    @PutMapping("/profile")
+    public void editProfile (SessionRequest request) {
+        UserDto map = map(request.getParam(), UserDto.class);
+        userService.update(map);
     }
 
-    public void leave (String userId) {
-        Integer n = userService.fetch(userId).getUserNo();
-        userInfoService.delete(n);
-        userPwService.delete(n);
-        userService.delete(n);
-        notifService.delete(n);
+    @DeleteMapping("/leave")
+    public void leave (SessionRequest request) {
+        userService.leave(request.getSession().getUserNo());
     }
 
 

@@ -1,23 +1,33 @@
 package com.nearu.nearu.controller;
+import com.nearu.nearu.OriginObject;
+import com.nearu.nearu.SessionRequest;
 import com.nearu.nearu.entity.Favorites;
+import com.nearu.nearu.request.FavoritesDto;
+import com.nearu.nearu.services.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
-public class FavoritesController {
-    private final FavoritesService favoritesService = new FavoritesService();
+@RestController
+@RequiredArgsConstructor
+public class FavoritesController extends OriginObject {
+    private final UserService userService;
 
-    public void addAddress(Integer userNo, String address){
-        Favorites f = new Favorites();
-        f.setUserNo(userNo);
-        f.setAddress(address);
-        favoritesService.save(f);
+    @PostMapping("/favorites")
+    public void addAddress(SessionRequest request){
+        FavoritesDto map = map(request.getParam(), FavoritesDto.class);
+        userService.saveFavorites(map);
     }
 
-    public ArrayList<Favorites> readAll(Integer userNo){
-        return favoritesService.fetchAll(userNo);
+    @GetMapping("/favorites")
+    public ArrayList<Favorites> readAll(SessionRequest request){
+        return userService.fetchAllFavorites(request.getSession().getUserNo());
     }
 
-    public void delete(Integer favoriteNo){
-        favoritesService.delete(favoriteNo);
+    @DeleteMapping("/favorites")
+    public void delete(SessionRequest request){
+        FavoritesDto map = map(request.getParam(), FavoritesDto.class);
+        userService.deleteFavorites(map.getFavoriteNo());
     }
 }

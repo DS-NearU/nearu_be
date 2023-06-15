@@ -1,63 +1,70 @@
 package com.nearu.nearu.controller;
 
+import com.nearu.nearu.OriginObject;
+import com.nearu.nearu.SessionRequest;
+import com.nearu.nearu.request.CommentDto;
+import com.nearu.nearu.request.QaCountsResponse;
+import com.nearu.nearu.request.QaDto;
 import com.nearu.nearu.services.QaService;
 import com.nearu.nearu.entity.Comment;
 import com.nearu.nearu.entity.Qa;
 import com.nearu.nearu.request.QaReadResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class QaController {
-    private final QaService qaService = new QaService();
-    private final CommentService commentService = new CommentService();
+@RestController
+@RequiredArgsConstructor
+public class QaController extends OriginObject {
+    private final QaService qaService;
 
-
-
-    public void post(Integer userNo, Boolean anonymous, String title, String content){
-        Qa question = new Qa(anonymous, LocalDateTime.now(), title, content);
-        question.setUserNo(userNo);
-        qaService.save(question);
-    }
-    public void edit(Integer qaNo, Boolean anonymous, String title, String content){
-        Qa question = qaService.fetch(qaNo);
-        question.setAnonymous(anonymous);
-        question.setUpdatedDt(LocalDateTime.now());
-        question.setTitle(title);
-        question.setQuestion(content);
-        qaService.update(question);
+    @PostMapping("/qa")
+    public void post(SessionRequest request){
+        QaDto map = map(request.getParam(), QaDto.class);
+        qaService.post(map);
     }
 
-    public void delete(Integer qaNo){
-        commentService.deleteAll(qaNo);
-        qaService.delete(qaNo);
+    @PutMapping("/qa")
+    public void edit(SessionRequest request){
+        QaDto map = map(request.getParam(), QaDto.class);
+        qaService.update(map);
     }
 
-    public void commentPost(Integer userNo, Integer qaNo, String content) {
-        Comment com = new Comment (userNo, qaNo, content, LocalDateTime.now());
-        commentService.save(com);
+    @DeleteMapping("/qa")
+    public void delete(SessionRequest request){
+        QaDto map = map(request.getParam(), QaDto.class);
+        qaService.delete(map.getQaNo());
     }
 
-    public void commentEdit(Integer commentNo, String content) {
-        Comment com = commentService.fetch(commentNo);
-        com.setContent(content);
-        com.setUpdatedAt(LocalDateTime.now());
-        commentService.update(com);
+    @PostMapping("/comment")
+    public void commentPost(SessionRequest request) {
+        CommentDto map = map(request.getParam(), CommentDto.class);
+        qaService.commentPost(map);
     }
 
-    public void commentDelete(Integer commentNo) {
-        commentService.delete(commentNo);
+    @PutMapping("/comment")
+    public void commentEdit(SessionRequest request) {
+        CommentDto map = map(request.getParam(), CommentDto.class);
+        qaService.commentUpdate(map);
     }
 
-    public QaReadResponse read (Integer qaNo) {
-        QaReadResponse response =  new QaReadResponse();
-        response.setQuestion(qaService.fetch(qaNo));
-        ArrayList<Comment> comments = commentService.fetchAllByQa(qaNo);
-        response.setComments(comments);
-        return response;
+    @DeleteMapping("/comment")
+    public void commentDelete(SessionRequest request) {
+        CommentDto map = map(request.getParam(), CommentDto.class);
+        qaService.commentDelete(map.getCommentNo());
     }
 
-    public ArrayList<Qa> readAll () {
-        return qaService.readAll();
+    @GetMapping("/qa")
+    public QaReadResponse read (SessionRequest request) {
+        QaDto map = map(request.getParam(), QaDto.class);
+        return qaService.fetchDetails(map.getQaNo());
+    }
+
+    @GetMapping("/qaAll")
+    public ArrayList<QaCountsResponse> readAll (SessionRequest request) {
+        QaDto map = map(request.getParam(), QaDto.class);
+        return qaService.fetchAll(map);
     }
 }

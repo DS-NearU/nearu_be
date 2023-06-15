@@ -41,7 +41,7 @@ public class ApplicationService{
 
     @Transactional
     public void saveStudApplication(StudApplicationDto stu){
-        if(studApplicationRepository.findByApplicationNoAndUserNo(stu.getApplicationNo(), stu.getUserNo()){
+        if(studApplicationRepository.findByApplicationNoAndUserNo(stu.getApplicationNo(), stu.getUserNo())!=null){
             return;
         }
         StudApplication stud = new StudApplication();
@@ -85,7 +85,7 @@ public class ApplicationService{
 
     public ApplicationReadResponse fetchApplicants(Integer applicationNo){
         ApplicationReadResponse res = new ApplicationReadResponse();
-        Application app = applicationRepository.findByApplicationNo(applicationNo)
+        Application app = applicationRepository.findByApplicationNo(applicationNo);
         Integer adminNo = app.getAdminNo();
         res.setName(userInfoRepository.findByUserNo(adminNo).getName());
         res.setApp(app);
@@ -116,5 +116,26 @@ public class ApplicationService{
                 applicationRepository.save(a);
             }
         }
+     }
+
+     public ArrayList<Application> fetchAllByAdmin(Integer adminNo){
+        return applicationRepository.findAllByAdminNo(adminNo);
+     }
+
+     public Application fetch(Integer applicationNo){
+        return applicationRepository.findByApplicationNo(applicationNo);
+     }
+
+     public StudApplication fetchApplicant(Integer applicationNo, Integer userNo){
+        return studApplicationRepository.findByApplicationNoAndUserNo(applicationNo, userNo);
+     }
+
+     public void selectApplicant(Integer applicationNo, Integer userNo){
+        Application a = applicationRepository.findByApplicationNo(applicationNo);
+        a.setStatus(false);
+        applicationRepository.save(a);
+        StudApplication fetch = studApplicationRepository.findByApplicationNoAndUserNo(applicationNo, userNo);
+        fetch.setIsConfirmed(true);
+        studApplicationRepository.save(fetch);
      }
 }

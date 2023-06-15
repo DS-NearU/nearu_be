@@ -65,17 +65,15 @@ public class ApplicationController extends OriginObject {
         applicationService.deleteStudApplication(map.getApplicationNo(), map.getUserNo());
     }
 
-    public ArrayList<Application> viewMyApplications (Integer userNo) {
-        return (ArrayList<Application>) applicationService.fetchAllByAdmin(userNo);
+    @GetMapping("/my-applications")
+    public ArrayList<Application> viewMyApplications (SessionRequest request) {
+        return (ArrayList<Application>) applicationService.fetchAllByAdmin(request.getSession().getUserNo());
     }
 
-    public void selectApplicant (Integer userNo, Integer applicationNo) {
-        Application a = applicationService.fetch(applicationNo);
-        a.setStatus(false);
-        applicationService.update(a);
-        StudApplication fetch = studApplicationService.fetch(applicationNo, userNo);
-        fetch.setIsConfirmed(true);
-        studApplicationService.update(fetch);
+    @PutMapping("/select-applicant")
+    public void selectApplicant (SessionRequest request) {
+        StudApplicationDto map = map(request.getParam(), StudApplicationDto.class);
+        applicationService.selectApplicant(map.getApplicationNo(),map.getUserNo());
     }
 
 

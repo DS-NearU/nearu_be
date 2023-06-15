@@ -6,14 +6,20 @@ import com.nearu.nearu.repository.ApplicationRepository;
 import com.nearu.nearu.repository.StudApplicationRepository;
 import com.nearu.nearu.request.ApplicationDto;
 import com.nearu.nearu.request.StudApplicationDto;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.*;
 
+@Service
+@RequiredArgsConstructor
 public class ApplicationService{
-    private ApplicationRepository applicationRepository;
-    private StudApplicationRepository studApplicationRepository;
+    private final ApplicationRepository applicationRepository;
+    private final StudApplicationRepository studApplicationRepository;
 
+    @Transactional
     public void saveApplication(ApplicationDto a){
         Application app = new Application();
         app.setCreatedAt(LocalDateTime.now());
@@ -26,6 +32,7 @@ public class ApplicationService{
         applicationRepository.save(app);
     }
 
+    @Transactional
     public void saveStudApplication(StudApplicationDto stu){
         StudApplication stud = new StudApplication();
         stud.setUserNo(stu.getUserNo());
@@ -34,6 +41,7 @@ public class ApplicationService{
         studApplicationRepository.save(stud);
     }
 
+    @Transactional
     public void updateApplication(ApplicationDto a){
         Application app = applicationRepository.findByApplicationNo(a.getApplicationNo());
         app.setDDay(a.getDDay());
@@ -44,6 +52,7 @@ public class ApplicationService{
         applicationRepository.save(app);
     }
 
+    @Transactional
     public void updateStudApplication(StudApplicationDto stu){
         StudApplication stud = studApplicationRepository.findByApplicationNoAndUserNo(stu.getApplicationNo(), stu.getUserNo());
         stud.setIsConfirmed(stu.getIsConfirmed());
@@ -58,11 +67,14 @@ public class ApplicationService{
         return studApplicationRepository.findByApplicationNoAndUserNo(applicationNo, userNo);
     }
 
+    @Transactional
     public void deleteApplication(Integer applicationNo){
         studApplicationRepository.deleteAllByApplicationNo(applicationNo);
         applicationRepository.deleteByApplicationNo(applicationNo);
     }
-     public void deleteStudApplication(Integer applicationNo, Integer userNo){
+
+    @Transactional
+    public void deleteStudApplication(Integer applicationNo, Integer userNo){
         studApplicationRepository.deleteByApplicationNoAndUserNo(applicationNo, userNo);
      }
 }

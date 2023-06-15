@@ -7,15 +7,22 @@ import com.nearu.nearu.request.CommentDto;
 import com.nearu.nearu.request.QaCountsResponse;
 import com.nearu.nearu.request.QaDto;
 import com.nearu.nearu.request.QaReadResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.*;
+
+@Service
+@RequiredArgsConstructor
 public class QaService {
 
-    private QaRepository qaRepository;
-    private CommentRepository commentRepository;
+    private final QaRepository qaRepository;
+    private final CommentRepository commentRepository;
 
     // comment update, comment delete
+    @Transactional
     public void post (QaDto q){
         Qa qa = new Qa();
 
@@ -49,6 +56,7 @@ public class QaService {
         return readResponse;
     }
 
+    @Transactional
     public void update(QaDto q) {
         Qa qa = qaRepository.findByQaNo(q.getQaNo());
         qa.setAnonymous(q.getAnonymous());
@@ -59,11 +67,13 @@ public class QaService {
         qaRepository.save(qa);
     }
 
+    @Transactional
     public void delete(Integer qaNo){
         commentRepository.deleteAllByQaNo(qaNo);
         qaRepository.deleteByQaNo(qaNo);
     }
 
+    @Transactional
     public void commentUpdate(CommentDto c) {
         Comment com = commentRepository.findByCommentNo(c.getCommentNo());
         com.setContent(c.getContent());
@@ -71,10 +81,12 @@ public class QaService {
         commentRepository.save(com);
     }
 
+    @Transactional
     public void commentDelete (Integer commentNo) {
         commentRepository.deleteByCommentNo(commentNo);
     }
 
+    @Transactional
     public void commentPost (CommentDto c) {
         Comment com = new Comment();
 

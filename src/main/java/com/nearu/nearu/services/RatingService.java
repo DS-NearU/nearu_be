@@ -5,15 +5,21 @@ import com.nearu.nearu.repository.RatingRepository;
 import com.nearu.nearu.repository.UserInfoRepository;
 import com.nearu.nearu.repository.UserRepository;
 import com.nearu.nearu.request.RatingDto;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 
 import java.util.*;
 
+@Service
+@RequiredArgsConstructor
 public class RatingService extends OriginObject {
-    private RatingRepository ratingRepository;
-    private UserInfoRepository userInfoRepository;
+    private final RatingRepository ratingRepository;
+    private final UserInfoRepository userInfoRepository;
 
+    @Transactional
     public void saveRating(RatingDto r){
         Rating rating = new Rating();
         rating.setRating(r.getRating());
@@ -34,6 +40,7 @@ public class RatingService extends OriginObject {
         return ratingRepository.findAllByApplication_AdminNo(adminNo);
     }
 
+    @Transactional
     public void delete(RatingDto r){
         UserInfo userInfo = userInfoRepository.findByUserNo(r.getUserNo());
         userInfo.removeRating(r.getRating());

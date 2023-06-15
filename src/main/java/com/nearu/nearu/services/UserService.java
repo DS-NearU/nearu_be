@@ -6,17 +6,22 @@ import com.nearu.nearu.entity.types.UserType;
 import com.nearu.nearu.repository.*;
 import com.nearu.nearu.request.FavoritesDto;
 import com.nearu.nearu.request.UserDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 
 @Service
+@RequiredArgsConstructor
 public class UserService extends OriginObject{
-    private UserRepository userRepository;
-    private UserInfoRepository userInfoRepository;
-    private UserPwRepository userPwRepository;
-    private NotificationsRepository notificationsRepository;
-    private FavoritesRepository favoritesRepository;
+    private final UserRepository userRepository;
+    private final UserInfoRepository userInfoRepository;
+    private final UserPwRepository userPwRepository;
+    private final NotificationsRepository notificationsRepository;
+    private final FavoritesRepository favoritesRepository;
+
+    @Transactional
     public void saveUser(UserDto userDto){
         User user = new User();
         user.setUserId(userDto.getUserId());
@@ -38,6 +43,7 @@ public class UserService extends OriginObject{
         return userInfoRepository.findByUserNo(userNo);
     }
 
+    @Transactional
     public void update(UserDto u){
         Integer userNo = userRepository.findByUserId(u.getUserId()).getUserNo();
         UserInfo byUserNo = userInfoRepository.findByUserNo(userNo);
@@ -58,6 +64,7 @@ public class UserService extends OriginObject{
         notificationsRepository.save(notif);
     }
 
+    @Transactional
     public void leave(Integer userNo){
         userInfoRepository.deleteByUserNo(userNo);
         userPwRepository.deleteByUserNo(userNo);
@@ -66,6 +73,7 @@ public class UserService extends OriginObject{
         userRepository.deleteByUserNo(userNo);
     }
 
+    @Transactional
     public void updatePw(UserDto u){
         Integer userNo = userRepository.findByUserId(u.getUserId()).getUserNo();
         UserPw password = userPwRepository.findByUserNo(userNo);
@@ -80,6 +88,7 @@ public class UserService extends OriginObject{
         return false;
     }
 
+    @Transactional
     public void updateNotif(UserDto u){
 
         Integer userNo = userRepository.findByUserId(u.getUserId()).getUserNo();
@@ -112,6 +121,7 @@ public class UserService extends OriginObject{
         return u;
     }
 
+    @Transactional
     public void saveFavorites(FavoritesDto f) {
         Favorites favorites = new Favorites();
         favorites.setUserNo(f.getUserNo());
@@ -122,6 +132,8 @@ public class UserService extends OriginObject{
     public ArrayList<Favorites> fetchAllFavorites (Integer userNo) {
         return favoritesRepository.findAllByUserNo(userNo);
     }
+
+    @Transactional
     public void updateFavorites(FavoritesDto fav){
         Integer favoriteNo = fav.getFavoriteNo();
         Favorites favorites = favoritesRepository.findByFavoriteNo(favoriteNo);
@@ -129,6 +141,7 @@ public class UserService extends OriginObject{
         favoritesRepository.save(favorites);
     }
 
+    @Transactional
     public void deleteFavorites (Integer favoriteNo){
         favoritesRepository.deleteByFavoriteNo(favoriteNo);
     }

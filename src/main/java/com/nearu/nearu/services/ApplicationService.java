@@ -5,6 +5,8 @@ import com.nearu.nearu.entity.StudApplication;
 import com.nearu.nearu.repository.ApplicationRepository;
 import com.nearu.nearu.repository.StudApplicationRepository;
 import com.nearu.nearu.request.ApplicationDto;
+import com.nearu.nearu.request.ApplicationReadAllResponse;
+import com.nearu.nearu.request.ApplicationReadResponse;
 import com.nearu.nearu.request.StudApplicationDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -59,11 +61,12 @@ public class ApplicationService{
         studApplicationRepository.save(stud);
     }
 
-    public Application fetchApplication(Integer applicationNo){
+    public ApplicationReadAllResponse fetchAllApplications(Integer applicationNo){
+
         return applicationRepository.findByApplicationNo(applicationNo);
     }
 
-    public StudApplication fetchStudApplication(Integer applicationNo, Integer userNo){
+    public ApplicationReadResponse fetchStudApplication(Integer applicationNo, Integer userNo){
         return studApplicationRepository.findByApplicationNoAndUserNo(applicationNo, userNo);
     }
 

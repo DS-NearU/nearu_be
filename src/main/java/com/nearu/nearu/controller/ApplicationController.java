@@ -67,7 +67,7 @@ public class ApplicationController extends OriginObject {
 
     @GetMapping("/my-applications")
     public ArrayList<Application> viewMyApplications (SessionRequest request) {
-        return (ArrayList<Application>) applicationService.fetchAllByAdmin(request.getSession().getUserNo());
+        return applicationService.fetchAllByAdmin(request.getSession().getUserNo());
     }
 
     @PutMapping("/select-applicant")

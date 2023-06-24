@@ -2,6 +2,7 @@ package com.nearu.nearu.controller;
 
 import com.nearu.nearu.OriginObject;
 import com.nearu.nearu.SessionRequest;
+import com.nearu.nearu.config.flows.SessionMapper;
 import com.nearu.nearu.request.ApplicationDto;
 import com.nearu.nearu.request.StudApplicationDto;
 import com.nearu.nearu.services.ApplicationService;
@@ -42,6 +43,7 @@ public class ApplicationController extends OriginObject {
         applicationService.deleteApplication(map.getApplicationNo());
     }
 
+    @SessionMapper
     @GetMapping("/applicants")
     public ApplicationReadResponse readApplicants(SessionRequest request){
         ApplicationDto map = map(request.getParam(), ApplicationDto.class);

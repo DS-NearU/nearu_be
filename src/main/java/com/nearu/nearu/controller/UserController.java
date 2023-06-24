@@ -12,6 +12,8 @@ import com.nearu.nearu.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.Session;
+
 @RestController
 @RequiredArgsConstructor
 public class UserController extends OriginObject {
@@ -47,6 +49,10 @@ public class UserController extends OriginObject {
         userService.leave(request.getSession().getUserNo());
     }
 
-
+    @PutMapping("/update-pw")
+    public void editPw(SessionRequest request){
+        UserDto map = map(request.getParam(), UserDto.class);
+        userService.updatePw(map);
+    }
 
 }

@@ -11,4 +11,5 @@ public class StudApplicationDto {
     private Integer userNo;
     private Integer applicationNo;
     private Boolean isConfirmed;
+    private String userId;
 }

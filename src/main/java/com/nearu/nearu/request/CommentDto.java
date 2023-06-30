@@ -9,8 +9,9 @@ import lombok.Setter;
 @Setter
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class CommentDto {
-    Integer commentNo;
-    Integer userNo;
-    Integer qaNo;
-    String content;
+    private Integer commentNo;
+    private Integer userNo;
+    private Integer qaNo;
+    private String content;
+    private String userId;
 }

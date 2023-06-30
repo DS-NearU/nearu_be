@@ -22,7 +22,7 @@ public class UserService extends OriginObject{
     private final FavoritesRepository favoritesRepository;
 
     @Transactional
-    public void saveUser(UserDto userDto){
+    public void saveUser(UserDto userDto) {
         User user = new User();
         user.setUserId(userDto.getUserId());
         user.setUserType(UserType.getType(userDto.getType()));
@@ -44,10 +44,12 @@ public class UserService extends OriginObject{
         userPw.setUserNo(user.getUserNo());
         userPwRepository.save(userPw);
         userInfoRepository.save(userInfo);
-    }
-
-    public UserInfo fetch(Integer userNo){
-        return userInfoRepository.findByUserNo(userNo);
+        Notifications notif = new Notifications();
+        notif.setEmailNotif(false);
+        notif.setKakaoNotif(false);
+        notif.setMsgNotif(false);
+        notif.setUserNo(user.getUserNo());
+        notificationsRepository.save(notif);
     }
 
     @Transactional
@@ -72,7 +74,8 @@ public class UserService extends OriginObject{
     }
 
     @Transactional
-    public void leave(Integer userNo){
+    public void leave(String userId){
+        Integer userNo = userRepository.findByUserId(userId).getUserNo();
         userInfoRepository.deleteByUserNo(userNo);
         userPwRepository.deleteByUserNo(userNo);
         favoritesRepository.deleteAllByUserNo(userNo);
@@ -110,6 +113,7 @@ public class UserService extends OriginObject{
         User user = userRepository.findByUserId(userId);
         Integer userNo = user.getUserNo();
         UserDto u = new UserDto();
+        u.setUserId(userId);
         u.setType(user.getUserType().getType());
         UserInfo info = userInfoRepository.findByUserNo(userNo);
         u.setName(info.getName());
@@ -121,6 +125,7 @@ public class UserService extends OriginObject{
         u.setCondition(info.getCondition());
         u.setExperience(info.getSimilarExp());
         u.setPurpose(info.getPurpose());
+        u.setAddress(info.getAddress());
         Notifications notif = notificationsRepository.findByUserNo(userNo);
         u.setKakaoNotification(notif.getKakaoNotif());
         u.setEmailNotification(notif.getEmailNotif());
@@ -131,12 +136,14 @@ public class UserService extends OriginObject{
     @Transactional
     public void saveFavorites(FavoritesDto f) {
         Favorites favorites = new Favorites();
-        favorites.setUserNo(f.getUserNo());
+        Integer userNo = userRepository.findByUserId(f.getUserId()).getUserNo();
+        favorites.setUserNo(userNo);
         favorites.setAddress(f.getAddress());
         favoritesRepository.save(favorites);
     }
 
-    public ArrayList<Favorites> fetchAllFavorites (Integer userNo) {
+    public ArrayList<Favorites> fetchAllFavorites (String userId) {
+        Integer userNo = userRepository.findByUserId(userId).getUserNo();
         return favoritesRepository.findAllByUserNo(userNo);
     }
 

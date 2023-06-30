@@ -15,4 +15,5 @@ public class QaDto {
     private Boolean anonymous;
     private String title;
     private String question;
+    private String userId;
 }

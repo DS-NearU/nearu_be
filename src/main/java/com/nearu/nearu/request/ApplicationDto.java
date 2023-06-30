@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
@@ -18,4 +19,17 @@ public class ApplicationDto {
     private String conditions;
     private LocalDateTime dDay;
     private Integer adminNo;
+    private String userId;
+
+    public void setDueDate(String dueDate) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        this.dueDate = LocalDateTime.parse(dueDate, formatter);
+    }
+
+    public void setdDay(String dDay) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        this.dDay = LocalDateTime.parse(dDay, formatter);
+    }
+
+
 }

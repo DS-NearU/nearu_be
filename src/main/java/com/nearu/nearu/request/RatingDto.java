@@ -12,4 +12,5 @@ public class RatingDto {
     private Integer applicationNo;
     private Integer rating;
     private String comment;
+    private String userId;
 }

@@ -30,29 +30,36 @@ public class UserController extends OriginObject {
         userService.saveUser(map);
     }
 
-
+    @SessionMapper
     @GetMapping("/sign-in")
     public boolean signIn(SessionRequest request){
         UserDto map = map(request.getParam(), UserDto.class);
         return userService.match(map.getUserId(), map.getPassword());
     }
-
+    @SessionMapper
     @GetMapping("/profile")
-    public UserInfo viewProfile (SessionRequest request) {
-        return userService.fetch(request.getSession().getUserNo());
+    public UserDto viewProfile (SessionRequest request) {
+        UserDto map = map(request.getParam(), UserDto.class);
+        return userService.fetch(map.getUserId());
     }
 
+    @SessionMapper
+    @Transactional
     @PutMapping("/profile")
     public void editProfile (SessionRequest request) {
         UserDto map = map(request.getParam(), UserDto.class);
         userService.update(map);
     }
-
+    @SessionMapper
+    @Transactional
     @DeleteMapping("/leave")
     public void leave (SessionRequest request) {
-        userService.leave(request.getSession().getUserNo());
+        UserDto map = map(request.getParam(), UserDto.class);
+        userService.leave(map.getUserId());
     }
 
+    @SessionMapper
+    @Transactional
     @PutMapping("/update-pw")
     public void editPw(SessionRequest request){
         UserDto map = map(request.getParam(), UserDto.class);

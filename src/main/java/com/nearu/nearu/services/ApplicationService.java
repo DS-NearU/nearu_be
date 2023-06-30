@@ -25,12 +25,14 @@ public class ApplicationService{
     private final ApplicationRepository applicationRepository;
     private final StudApplicationRepository studApplicationRepository;
     private final UserInfoRepository userInfoRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public void saveApplication(ApplicationDto a){
         Application app = new Application();
         app.setCreatedAt(LocalDateTime.now());
-        app.setAdminNo(a.getAdminNo());
+        Integer adminNo = userRepository.findByUserId(a.getUserId()).getUserNo();
+        app.setAdminNo(adminNo);
         app.setConditions(a.getConditions());
         app.setDDay(a.getDDay());
         app.setLocation(a.getLocation());
@@ -41,11 +43,12 @@ public class ApplicationService{
 
     @Transactional
     public void saveStudApplication(StudApplicationDto stu){
-        if(studApplicationRepository.findByApplicationNoAndUserNo(stu.getApplicationNo(), stu.getUserNo())!=null){
+        Integer userNo = userRepository.findByUserId(stu.getUserId()).getUserNo();
+        if(studApplicationRepository.findByApplicationNoAndUserNo(stu.getApplicationNo(), userNo)!=null){
             return;
         }
         StudApplication stud = new StudApplication();
-        stud.setUserNo(stu.getUserNo());
+        stud.setUserNo(userNo);
         stud.setApplicationNo(stu.getApplicationNo());
         stud.setIsConfirmed(false);
         studApplicationRepository.save(stud);
@@ -118,7 +121,8 @@ public class ApplicationService{
         }
      }
 
-     public ArrayList<Application> fetchAllByAdmin(Integer adminNo){
+     public ArrayList<Application> fetchAllByAdmin(String userId){
+        Integer adminNo = userRepository.findByUserId(userId).getUserNo();
         return applicationRepository.findAllByAdminNo(adminNo);
      }
 

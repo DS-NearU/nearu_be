@@ -18,31 +18,36 @@ import java.util.*;
 public class RatingService extends OriginObject {
     private final RatingRepository ratingRepository;
     private final UserInfoRepository userInfoRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public void saveRating(RatingDto r){
         Rating rating = new Rating();
+        Integer userNo = userRepository.findByUserId(r.getUserId()).getUserNo();
         rating.setRating(r.getRating());
-        rating.setUserNo(r.getUserNo());
+        rating.setUserNo(userNo);
         rating.setComment(r.getComment());
         rating.setApplicationNo(r.getApplicationNo());
-        UserInfo userInfo = userInfoRepository.findByUserNo(r.getUserNo());
+        UserInfo userInfo = userInfoRepository.findByUserNo(userNo);
         userInfo.addRating(r.getRating());
         userInfoRepository.save(userInfo);
         ratingRepository.save(rating);
     }
 
     public ArrayList<Rating> fetchAllVolunteer(Integer userNo){
+
         return ratingRepository.findAllByUserNo(userNo);
     }
 
-    public ArrayList<Rating> fetchAllNeeder(Integer adminNo){
+    public ArrayList<Rating> fetchAllNeeder(String userId){
+        Integer adminNo = userRepository.findByUserId(userId).getUserNo();
         return ratingRepository.findAllByApplication_AdminNo(adminNo);
     }
 
     @Transactional
     public void delete(RatingDto r){
-        UserInfo userInfo = userInfoRepository.findByUserNo(r.getUserNo());
+        Integer userNo = userRepository.findByUserId(r.getUserId()).getUserNo();
+        UserInfo userInfo = userInfoRepository.findByUserNo(userNo);
         userInfo.removeRating(r.getRating());
         userInfoRepository.save(userInfo);
         ratingRepository.deleteByRatingNo(r.getRatingNo());

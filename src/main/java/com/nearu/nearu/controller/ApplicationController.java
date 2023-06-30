@@ -15,6 +15,7 @@ import com.nearu.nearu.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -24,19 +25,24 @@ public class ApplicationController extends OriginObject {
     private final ApplicationService applicationService;
     private final UserService userService;
 
-
+    @SessionMapper
+    @Transactional
     @PostMapping("/application")
     public void upload (SessionRequest request) {
         ApplicationDto map = map(request.getParam(), ApplicationDto.class);
         applicationService.saveApplication(map);
     }
 
+    @SessionMapper
+    @Transactional
     @PutMapping("/application")
     public void edit (SessionRequest request) {
         ApplicationDto map = map(request.getParam(), ApplicationDto.class);
         applicationService.updateApplication(map);
     }
 
+    @SessionMapper
+    @Transactional
     @DeleteMapping("/application")
     public void delete(SessionRequest request) {
         ApplicationDto map = map(request.getParam(), ApplicationDto.class);
@@ -50,28 +56,37 @@ public class ApplicationController extends OriginObject {
         return applicationService.fetchApplicants(map.getApplicationNo());
     }
 
+    @SessionMapper
     @GetMapping("/applications")
-    public ArrayList<ApplicationReadAllResponse> readAll() {
+    public ArrayList<ApplicationReadAllResponse> readAll(SessionRequest request) {
         return applicationService.fetchAllApplications();
     }
 
+    @SessionMapper
+    @Transactional
     @PostMapping("/register")
     public void register (SessionRequest request) {
         StudApplicationDto map = map(request.getParam(), StudApplicationDto.class);
         applicationService.saveStudApplication(map);
     }
 
+    @SessionMapper
+    @Transactional
     @DeleteMapping("/cancel")
     public void cancel (SessionRequest request) {
         StudApplicationDto map = map(request.getParam(), StudApplicationDto.class);
         applicationService.deleteStudApplication(map.getApplicationNo(), map.getUserNo());
     }
 
+    @SessionMapper
     @GetMapping("/my-applications")
     public ArrayList<Application> viewMyApplications (SessionRequest request) {
-        return applicationService.fetchAllByAdmin(request.getSession().getUserNo());
+        ApplicationDto map = map(request.getParam(), ApplicationDto.class);
+        return applicationService.fetchAllByAdmin(map.getUserId());
     }
 
+    @SessionMapper
+    @Transactional
     @PutMapping("/select-applicant")
     public void selectApplicant (SessionRequest request) {
         StudApplicationDto map = map(request.getParam(), StudApplicationDto.class);

@@ -3,6 +3,7 @@ import com.nearu.nearu.entity.Comment;
 import com.nearu.nearu.entity.Qa;
 import com.nearu.nearu.repository.CommentRepository;
 import com.nearu.nearu.repository.QaRepository;
+import com.nearu.nearu.repository.UserRepository;
 import com.nearu.nearu.request.CommentDto;
 import com.nearu.nearu.request.QaCountsResponse;
 import com.nearu.nearu.request.QaDto;
@@ -20,14 +21,15 @@ public class QaService {
 
     private final QaRepository qaRepository;
     private final CommentRepository commentRepository;
+    private final UserRepository userRepository;
 
     // comment update, comment delete
     @Transactional
     public void post (QaDto q){
         Qa qa = new Qa();
-
+        Integer userNo = userRepository.findByUserId(q.getUserId()).getUserNo();
         qa.setAnonymous(q.getAnonymous());
-        qa.setUserNo(q.getUserNo());
+        qa.setUserNo(userNo);
         qa.setTitle(q.getTitle());
         qa.setQuestion(q.getQuestion());
         qa.setCreatedDt(LocalDateTime.now());
@@ -35,7 +37,7 @@ public class QaService {
         qaRepository.save(qa);
     }
 
-    public ArrayList<QaCountsResponse> fetchAll (QaDto q){
+    public ArrayList<QaCountsResponse> fetchAll (){
         ArrayList<Qa> list = (ArrayList<Qa>) qaRepository.findAll();
         ArrayList<QaCountsResponse> arrList = new ArrayList<QaCountsResponse>();
 
@@ -89,12 +91,11 @@ public class QaService {
     @Transactional
     public void commentPost (CommentDto c) {
         Comment com = new Comment();
-
-        com.setUserNo(c.getUserNo());
+        Integer userNo = userRepository.findByUserId(c.getUserId()).getUserNo();
+        com.setUserNo(userNo);
         com.setQaNo(c.getQaNo());
         com.setContent(c.getContent());
         com.setCreatedAt(LocalDateTime.now());
-
         commentRepository.save(com);
     }
 

@@ -14,4 +14,5 @@ public class FavoritesDto {
     private Integer favoriteNo;
     private Integer userNo;
     private String address;
+    private String userId;
 }

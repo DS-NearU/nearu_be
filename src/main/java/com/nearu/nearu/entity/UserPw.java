@@ -14,7 +14,6 @@ import javax.persistence.*;
 @Table(name = "user_pw")
 public class UserPw {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_no")
     private Integer userNo;
 

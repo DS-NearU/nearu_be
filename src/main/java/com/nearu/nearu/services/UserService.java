@@ -27,11 +27,18 @@ public class UserService extends OriginObject{
         user.setUserId(userDto.getUserId());
         user.setUserType(UserType.getType(userDto.getType()));
         UserInfo userInfo = new UserInfo();
-
-
+        userInfo.setAddress(userDto.getAddress());
+        userInfo.setName(userDto.getName());
+        userInfo.setGender(userDto.getGender());
+        userInfo.setCondition(userDto.getCondition());
+        userInfo.setEmail(userDto.getEmail());
+        userInfo.setPurpose(userDto.getPurpose());
+        userInfo.setEmerPhoneNumber(userDto.getEmergencyNum());
+        userInfo.setPhoneNumber(userDto.getPhoneNum());
+        userInfo.setPresentation(userDto.getPresentation());
+        userInfo.setSimilarExp(userDto.getExperience());
         UserPw userPw = new UserPw();
-
-
+        userPw.setPassword(userDto.getPassword());
         userRepository.save(user);//db에저장
         userInfo.setUserNo(user.getUserNo());
         userPw.setUserNo(user.getUserNo());

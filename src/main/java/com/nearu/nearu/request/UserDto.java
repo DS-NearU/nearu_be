@@ -12,6 +12,7 @@ public class UserDto {
     private String userId;
     private String password;
     private String type;
+    private String address;
     private String name;
     private Boolean gender;
     private String email;

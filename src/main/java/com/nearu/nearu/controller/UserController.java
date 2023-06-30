@@ -2,6 +2,7 @@ package com.nearu.nearu.controller;
 
 import com.nearu.nearu.OriginObject;
 import com.nearu.nearu.SessionRequest;
+import com.nearu.nearu.config.flows.SessionMapper;
 import com.nearu.nearu.entity.Notifications;
 import com.nearu.nearu.entity.User;
 import com.nearu.nearu.entity.UserInfo;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.Session;
+import javax.transaction.Transactional;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,6 +22,8 @@ public class UserController extends OriginObject {
 
     private final UserService userService;
 
+    @SessionMapper
+    @Transactional
     @PostMapping("/sign-up")
     public void signUp(SessionRequest request) {
         UserDto map = map(request.getParam(), UserDto.class);

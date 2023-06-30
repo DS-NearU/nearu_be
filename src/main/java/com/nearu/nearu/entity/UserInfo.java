@@ -16,7 +16,6 @@ import javax.persistence.*;
 public class UserInfo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_no")
     private Integer userNo;
 

@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.mail.Session;
 import javax.transaction.Transactional;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -32,9 +34,11 @@ public class UserController extends OriginObject {
 
     @SessionMapper
     @GetMapping("/sign-in")
-    public boolean signIn(SessionRequest request){
+    public Map signIn(SessionRequest request){
         UserDto map = map(request.getParam(), UserDto.class);
-        return userService.match(map.getUserId(), map.getPassword());
+        Map<String, Boolean> result = new HashMap<>();
+        result.put("result", userService.match(map.getUserId(), map.getPassword()));
+        return result;
     }
     @SessionMapper
     @GetMapping("/profile")

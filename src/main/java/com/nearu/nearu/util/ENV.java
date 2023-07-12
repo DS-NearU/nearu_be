@@ -22,10 +22,10 @@ public class ENV {
 //        this.AI_MODEL_DOMAIN = aiModelDomain;
 //    }
 //
-//    @Value("${application.is-release}")
-//    public void setIsRelease(Boolean isRelease) {
-//        this.isRelease = isRelease;
-//    }
+    @Value("${application.is-release}")
+    public void setIsRelease(Boolean isRelease) {
+        this.isRelease = isRelease;
+    }
 //
 //    @Value("${amazon.s3.queue.domain}")
 //    public void setAwsS3QueueDomain(String awsS3QueueDomain) {

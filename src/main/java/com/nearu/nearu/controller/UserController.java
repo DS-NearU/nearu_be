@@ -34,11 +34,10 @@ public class UserController extends OriginObject {
 
     @SessionMapper
     @GetMapping("/sign-in")
-    public Map signIn(SessionRequest request){
+    public User signIn(SessionRequest request){
         UserDto map = map(request.getParam(), UserDto.class);
-        Map<String, Boolean> result = new HashMap<>();
-        result.put("result", userService.match(map.getUserId(), map.getPassword()));
-        return result;
+        User match = userService.match(map.getUserId(), map.getPassword());
+        return match;
     }
     @SessionMapper
     @GetMapping("/profile")

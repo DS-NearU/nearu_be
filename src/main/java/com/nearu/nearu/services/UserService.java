@@ -91,11 +91,11 @@ public class UserService extends OriginObject{
         userPwRepository.save(password);
     }
 
-    public boolean match(String userId, String pw){
-        Integer userNo = userRepository.findByUserId(userId).getUserNo();
-        if(userPwRepository.findByUserNo(userNo).getPassword().equals(pw))
-            return true;
-        return false;
+    public User match(String userId, String pw){
+        User user = userRepository.findByUserId(userId);
+        if(userPwRepository.findByUserNo(user.getUserNo()).getPassword().equals(pw))
+            return user;
+        return null;
     }
 
     @Transactional

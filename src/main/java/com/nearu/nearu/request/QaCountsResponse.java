@@ -11,4 +11,5 @@ import java.util.*;
 public class QaCountsResponse {
     private Qa question;
     private Integer countComments;
+    private String name;
 }

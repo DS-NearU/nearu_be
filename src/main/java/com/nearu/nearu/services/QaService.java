@@ -3,6 +3,7 @@ import com.nearu.nearu.entity.Comment;
 import com.nearu.nearu.entity.Qa;
 import com.nearu.nearu.repository.CommentRepository;
 import com.nearu.nearu.repository.QaRepository;
+import com.nearu.nearu.repository.UserInfoRepository;
 import com.nearu.nearu.repository.UserRepository;
 import com.nearu.nearu.request.CommentDto;
 import com.nearu.nearu.request.QaCountsResponse;
@@ -22,12 +23,13 @@ public class QaService {
     private final QaRepository qaRepository;
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
+    private final UserInfoRepository userInfoRepository;
 
     // comment update, comment delete
     @Transactional
     public void post (QaDto q){
         Qa qa = new Qa();
-        Integer userNo = userRepository.findByUserId(q.getUserId()).getUserNo();
+        Integer userNo = userRepository.findByUserNo(q.getUserNo()).getUserNo();
         qa.setAnonymous(q.getAnonymous());
         qa.setUserNo(userNo);
         qa.setTitle(q.getTitle());
@@ -45,6 +47,8 @@ public class QaService {
             QaCountsResponse res = new QaCountsResponse();
             res.setQuestion(list.get(i));
             res.setCountComments(commentRepository.countAllByQaNo(list.get(i).getQaNo()));
+            Integer userNo = list.get(i).getUserNo();
+            res.setName(userInfoRepository.findByUserNo(userNo).getName());
             arrList.add(res);
         }
         return arrList;
@@ -52,9 +56,10 @@ public class QaService {
 
     public QaReadResponse fetchDetails (Integer qaNo) {
         QaReadResponse readResponse = new QaReadResponse();
-        readResponse.setQuestion(qaRepository.findByQaNo(qaNo));
+        Qa qa = qaRepository.findByQaNo(qaNo);
+        readResponse.setQuestion(qa);
         readResponse.setComments(commentRepository.findAllByQaNo(qaNo));
-
+        readResponse.setName(userInfoRepository.findByUserNo(qa.getUserNo()).getName());
         return readResponse;
     }
 

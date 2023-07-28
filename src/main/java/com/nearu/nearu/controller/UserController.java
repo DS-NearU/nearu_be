@@ -53,6 +53,15 @@ public class UserController extends OriginObject {
         UserDto map = map(request.getParam(), UserDto.class);
         userService.update(map);
     }
+
+    @SessionMapper
+    @Transactional
+    @PutMapping("/notifications")
+    public void editNotif (SessionRequest request) {
+        UserDto map = map(request.getParam(), UserDto.class);
+        userService.updateNotif(map);
+    }
+
     @SessionMapper
     @Transactional
     @DeleteMapping("/leave")

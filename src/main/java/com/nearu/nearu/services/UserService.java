@@ -46,7 +46,7 @@ public class UserService extends OriginObject{
         userInfoRepository.save(userInfo);
         Notifications notif = new Notifications();
         notif.setEmailNotif(false);
-        notif.setKakaoNotif(false);
+        notif.setPhoneNotif(false);
         notif.setMsgNotif(false);
         notif.setUserNo(user.getUserNo());
         notificationsRepository.save(notif);
@@ -57,19 +57,20 @@ public class UserService extends OriginObject{
         Integer userNo = userRepository.findByUserId(u.getUserId()).getUserNo();
         UserInfo byUserNo = userInfoRepository.findByUserNo(userNo);
         byUserNo.setName(u.getName());
-        byUserNo.setGender(u.getGender());
         byUserNo.setEmail(u.getEmail());
         byUserNo.setPhoneNumber(u.getPhoneNum());
         byUserNo.setEmerPhoneNumber(u.getEmergencyNum());
-        byUserNo.setPresentation(u.getPresentation());
-        byUserNo.setCondition(u.getCondition());
-        byUserNo.setSimilarExp(u.getExperience());
         byUserNo.setPurpose(u.getPurpose());
         userInfoRepository.save(byUserNo);
+    }
+
+    @Transactional
+    public void updateNotif (UserDto u) {
+        Integer userNo = userRepository.findByUserId(u.getUserId()).getUserNo();
         Notifications notif = notificationsRepository.findByUserNo(userNo);
-        notif.setKakaoNotif(u.getKakaoNotification());
         notif.setEmailNotif(u.getEmailNotification());
         notif.setMsgNotif(u.getMsgNotification());
+        notif.setPhoneNotif(u.getPhoneNotification());
         notificationsRepository.save(notif);
     }
 
@@ -97,18 +98,6 @@ public class UserService extends OriginObject{
             return user;
         return null;
     }
-
-    @Transactional
-    public void updateNotif(UserDto u){
-
-        Integer userNo = userRepository.findByUserId(u.getUserId()).getUserNo();
-        Notifications notif = notificationsRepository.findByUserNo(userNo);
-        notif.setEmailNotif(u.getEmailNotification());
-        notif.setMsgNotif(u.getMsgNotification());
-        notif.setKakaoNotif(u.getKakaoNotification());
-        notificationsRepository.save(notif);
-    }
-
     public UserDto fetch(String userId){
         User user = userRepository.findByUserId(userId);
         Integer userNo = user.getUserNo();
@@ -127,7 +116,7 @@ public class UserService extends OriginObject{
         u.setPurpose(info.getPurpose());
         u.setAddress(info.getAddress());
         Notifications notif = notificationsRepository.findByUserNo(userNo);
-        u.setKakaoNotification(notif.getKakaoNotif());
+        u.setPhoneNotification(notif.getPhoneNotif());
         u.setEmailNotification(notif.getEmailNotif());
         u.setMsgNotification(notif.getMsgNotif());
         return u;

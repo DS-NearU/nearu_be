@@ -24,5 +24,5 @@ public class UserDto {
     private Boolean purpose;
     private Boolean emailNotification;
     private Boolean msgNotification;
-    private Boolean kakaoNotification;
+    private Boolean phoneNotification;
 }

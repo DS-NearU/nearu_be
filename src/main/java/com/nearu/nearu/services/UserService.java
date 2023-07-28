@@ -133,7 +133,12 @@ public class UserService extends OriginObject{
         u.setExperience(info.getSimilarExp());
         u.setPurpose(info.getPurpose());
         u.setAddress(info.getAddress());
-        u.setRating((info.getTotRate().doubleValue())/(info.getNumRate()));
+        if (info.getNumRate() == 0) {
+            u.setRating(0.0);
+        }
+        else {
+            u.setRating((info.getTotRate().doubleValue())/(info.getNumRate()));
+        }
         Notifications notif = notificationsRepository.findByUserNo(userNo);
         u.setPhoneNotification(notif.getPhoneNotif());
         u.setEmailNotification(notif.getEmailNotif());

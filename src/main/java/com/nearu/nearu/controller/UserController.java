@@ -53,6 +53,7 @@ public class UserController extends OriginObject {
         UserDto map = map(request.getParam(), UserDto.class);
         userService.update(map);
     }
+
     @SessionMapper
     @Transactional
     @DeleteMapping("/leave")

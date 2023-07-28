@@ -3,6 +3,7 @@ package com.nearu.nearu.config.flows;
 import com.amazonaws.services.workspaces.model.Workspace;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nearu.nearu.SessionRequest;
+import com.nearu.nearu.util.SESSION;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.IOUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -76,12 +77,12 @@ public class SessionProvider extends Workspace implements HandlerInterceptor {
             for(String key : paramMap.keySet()){
                 body.put(key, paramMap.get(key)[0]);
             }
-//            String sessionKey = request.getHeader(SESSION.TOKEN_NAME);
-//            try{
-//                body.put(SESSION.SESS_AUTH_KEY, sessionKey);
-//            }catch (Exception e){
-//
-//            }
+            String sessionKey = request.getHeader(SESSION.TOKEN_NAME);
+            try{
+                body.put(SESSION.SESS_AUTH_KEY, sessionKey);
+            }catch (Exception e){
+
+            }
             SessionRequest sessionRequest = SessionRequest.makeSessionRequest(request, response, body);
             return sessionRequest;
         }

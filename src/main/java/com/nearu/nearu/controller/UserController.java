@@ -66,6 +66,14 @@ public class UserController extends OriginObject {
 
     @SessionMapper
     @Transactional
+    @GetMapping("/notifications")
+    public UserDto viewNotifications (SessionRequest request) {
+        UserDto map = map(request.getParam(), UserDto.class);
+        return userService.fetch(map.getUserId());
+    }
+
+    @SessionMapper
+    @Transactional
     @DeleteMapping("/leave")
     public void leave (SessionRequest request) {
         UserDto map = map(request.getParam(), UserDto.class);

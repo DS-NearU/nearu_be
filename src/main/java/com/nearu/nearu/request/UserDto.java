@@ -25,4 +25,5 @@ public class UserDto {
     private Boolean emailNotification;
     private Boolean msgNotification;
     private Boolean phoneNotification;
+    private Double rating;
 }

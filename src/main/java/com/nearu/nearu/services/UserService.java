@@ -63,7 +63,7 @@ public class UserService extends OriginObject{
         byUserNo.setEmail(u.getEmail());
         byUserNo.setPhoneNumber(u.getPhoneNum());
         byUserNo.setEmerPhoneNumber(u.getEmergencyNum());
-        byUserNo.setPurpose(u.getPurpose());
+        byUserNo.setPresentation(u.getPresentation());
         userInfoRepository.save(byUserNo);
     }
 
@@ -133,6 +133,7 @@ public class UserService extends OriginObject{
         u.setExperience(info.getSimilarExp());
         u.setPurpose(info.getPurpose());
         u.setAddress(info.getAddress());
+        u.setRating((info.getTotRate().doubleValue())/(info.getNumRate()));
         Notifications notif = notificationsRepository.findByUserNo(userNo);
         u.setPhoneNotification(notif.getPhoneNotif());
         u.setEmailNotification(notif.getEmailNotif());

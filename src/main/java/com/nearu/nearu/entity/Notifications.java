@@ -28,16 +28,16 @@ public class Notifications {
     @Column(name = "msg_notif")
     private Boolean msgNotif;
 
-    @Column(name = "kakao_notif")
-    private Boolean kakaoNotif;
+    @Column(name = "phone_notif")
+    private Boolean phoneNotif;
 
     public Notifications() {
     }
 
-    public Notifications(Boolean emailNotif, Boolean msgNotif, Boolean kakaoNotif) {
+    public Notifications(Boolean emailNotif, Boolean msgNotif, Boolean phoneNotif) {
         this.emailNotif = emailNotif;
         this.msgNotif = msgNotif;
-        this.kakaoNotif = kakaoNotif;
+        this.phoneNotif = phoneNotif;
     }
 }
 

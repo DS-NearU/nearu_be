@@ -12,6 +12,6 @@ public class FavoriteTypeConverter implements AttributeConverter<FavoriteTypes, 
 
     @Override
     public FavoriteTypes convertToEntityAttribute(String dbData) {
-        return FavoriteTypes.getType(dbData);
+        return FavoriteTypes.getTypeCode(dbData);
     }
 }

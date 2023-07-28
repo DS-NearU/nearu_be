@@ -8,6 +8,8 @@ import com.nearu.nearu.entity.User;
 import com.nearu.nearu.entity.UserInfo;
 import com.nearu.nearu.entity.UserPw;
 import com.nearu.nearu.entity.types.UserType;
+import com.nearu.nearu.request.FavoritesDto;
+import com.nearu.nearu.request.UpdateAdminRequest;
 import com.nearu.nearu.request.UserDto;
 import com.nearu.nearu.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -58,7 +60,7 @@ public class UserController extends OriginObject {
     @Transactional
     @PutMapping("/notifications")
     public void editNotif (SessionRequest request) {
-        UserDto map = map(request.getParam(), UserDto.class);
+        UpdateAdminRequest map = map(request.getParam(), UpdateAdminRequest.class);
         userService.updateNotif(map);
     }
 

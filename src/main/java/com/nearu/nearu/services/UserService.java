@@ -2,15 +2,18 @@ package com.nearu.nearu.services;
 
 import com.nearu.nearu.OriginObject;
 import com.nearu.nearu.entity.*;
+import com.nearu.nearu.entity.types.FavoriteTypes;
 import com.nearu.nearu.entity.types.UserType;
 import com.nearu.nearu.repository.*;
 import com.nearu.nearu.request.FavoritesDto;
+import com.nearu.nearu.request.UpdateAdminRequest;
 import com.nearu.nearu.request.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -65,12 +68,27 @@ public class UserService extends OriginObject{
     }
 
     @Transactional
-    public void updateNotif (UserDto u) {
-        Integer userNo = userRepository.findByUserId(u.getUserId()).getUserNo();
+    public void updateNotif (UpdateAdminRequest updateAdminRequest) {
+        Integer userNo = userRepository.findByUserId(updateAdminRequest.getUserId()).getUserNo();
         Notifications notif = notificationsRepository.findByUserNo(userNo);
-        notif.setEmailNotif(u.getEmailNotification());
-        notif.setMsgNotif(u.getMsgNotification());
-        notif.setPhoneNotif(u.getPhoneNotification());
+        notif.setEmailNotif(updateAdminRequest.getEmailNotification());
+        notif.setMsgNotif(updateAdminRequest.getMsgNotification());
+        notif.setPhoneNotif(updateAdminRequest.getPhoneNotification());
+        List<FavoritesDto> favorites = updateAdminRequest.getFavorites();
+        for (FavoritesDto fd : favorites) {
+            if(bePresent(fd.getFavoriteNo())){
+                Favorites fav = favoritesRepository.findByFavoriteNo(fd.getFavoriteNo());
+                fav.setAddress(fd.getAddress());
+                fav.setFavoriteTypes(FavoriteTypes.getType(fd.getFavType()));
+                favoritesRepository.save(fav);
+            }else{
+                Favorites fav = new Favorites();
+                fav.setUserNo(updateAdminRequest.getUserNo());
+                fav.setAddress(fd.getAddress());
+                fav.setFavoriteTypes(FavoriteTypes.getType(fd.getFavType()));
+                favoritesRepository.save(fav);
+            }
+        }
         notificationsRepository.save(notif);
     }
 

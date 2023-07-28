@@ -14,11 +14,21 @@ public enum FavoriteTypes {
         this.typeCode = typeCode;
     }
 
-    public static FavoriteTypes getType(String type){
+    public static FavoriteTypes getTypeCode(String type){
         if(type == null)
             return null;
         for (FavoriteTypes ft : FavoriteTypes.values()) {
             if(ft.getTypeCode().equals(type))
+                return ft;
+        }
+        return null;
+    }
+
+    public static FavoriteTypes getType(String type){
+        if(type == null)
+            return null;
+        for (FavoriteTypes ft : FavoriteTypes.values()) {
+            if(ft.getType().equals(type))
                 return ft;
         }
         return null;

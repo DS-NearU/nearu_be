@@ -147,6 +147,14 @@ public class UserService extends OriginObject{
     }
 
     @Transactional
+    public Notifications fetchNotif(String userId){
+        User user = userRepository.findByUserId(userId);
+        Integer userNo = user.getUserNo();
+        Notifications notif = notificationsRepository.findByUserNo(userNo);
+
+        return notif;
+    }
+    @Transactional
     public void saveFavorites(FavoritesDto f) {
         Favorites favorites = new Favorites();
         Integer userNo = userRepository.findByUserId(f.getUserId()).getUserNo();

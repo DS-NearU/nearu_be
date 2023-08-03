@@ -3,11 +3,7 @@ package com.nearu.nearu.controller;
 import com.nearu.nearu.OriginObject;
 import com.nearu.nearu.SessionRequest;
 import com.nearu.nearu.config.flows.SessionMapper;
-import com.nearu.nearu.entity.Notifications;
-import com.nearu.nearu.entity.User;
-import com.nearu.nearu.entity.UserInfo;
-import com.nearu.nearu.entity.UserPw;
-import com.nearu.nearu.entity.types.UserType;
+import com.nearu.nearu.entity.*;
 import com.nearu.nearu.request.FavoritesDto;
 import com.nearu.nearu.request.UpdateAdminRequest;
 import com.nearu.nearu.request.UserDto;
@@ -15,10 +11,8 @@ import com.nearu.nearu.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import javax.mail.Session;
 import javax.transaction.Transactional;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
 
 @RestController
 @RequiredArgsConstructor
@@ -65,7 +59,6 @@ public class UserController extends OriginObject {
     }
 
     @SessionMapper
-    @Transactional
     @GetMapping("/notifications")
     public Notifications viewNotifications (SessionRequest request) {
         UserDto map = map(request.getParam(), UserDto.class);

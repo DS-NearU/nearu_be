@@ -75,20 +75,16 @@ public class UserService extends OriginObject{
         notif.setMsgNotif(updateAdminRequest.getMsgNotification());
         notif.setPhoneNotif(updateAdminRequest.getPhoneNotification());
         List<FavoritesDto> favorites = updateAdminRequest.getFavorites();
+        favoritesRepository.deleteAllByUserNo(userNo);
+        List<Favorites> favoritesList = new ArrayList<>();
         for (FavoritesDto fd : favorites) {
-            if(bePresent(fd.getFavoriteNo())){
-                Favorites fav = favoritesRepository.findByFavoriteNo(fd.getFavoriteNo());
-                fav.setAddress(fd.getAddress());
-                fav.setFavoriteTypes(FavoriteTypes.getType(fd.getFavType()));
-                favoritesRepository.save(fav);
-            }else{
-                Favorites fav = new Favorites();
-                fav.setUserNo(updateAdminRequest.getUserNo());
-                fav.setAddress(fd.getAddress());
-                fav.setFavoriteTypes(FavoriteTypes.getType(fd.getFavType()));
-                favoritesRepository.save(fav);
-            }
+            Favorites fav = new Favorites();
+            fav.setUserNo(userNo);
+            fav.setAddress(fd.getAddress());
+            fav.setFavoriteTypes(FavoriteTypes.getType(fd.getFavType()));
+            favoritesList.add(fav);
         }
+        favoritesRepository.saveAll(favoritesList);
         notificationsRepository.save(notif);
     }
 

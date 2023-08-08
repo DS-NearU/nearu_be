@@ -14,9 +14,8 @@ public class ApplicationDto {
     private Integer applicationNo;
     private Boolean status;
     private LocalDateTime dueDate;
-    private LocalDateTime createdAt;
     private String location;
-    private String conditions;
+    private String conditions; // html에서 "reasons"
     private LocalDateTime dDay;
     private Integer adminNo;
     private String userId;

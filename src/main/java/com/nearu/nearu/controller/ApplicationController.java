@@ -13,6 +13,7 @@ import com.nearu.nearu.request.ApplicationReadAllResponse;
 import com.nearu.nearu.request.ApplicationReadResponse;
 import com.nearu.nearu.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.apache.http.HttpException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
@@ -28,7 +29,7 @@ public class ApplicationController extends OriginObject {
     @SessionMapper
     @Transactional
     @PostMapping("/application")
-    public void upload (SessionRequest request) {
+    public void upload (SessionRequest request) throws HttpException {
         ApplicationDto map = map(request.getParam(), ApplicationDto.class);
         applicationService.saveApplication(map);
     }

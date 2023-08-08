@@ -13,6 +13,7 @@ import com.nearu.nearu.request.ApplicationReadAllResponse;
 import com.nearu.nearu.request.ApplicationReadResponse;
 import com.nearu.nearu.request.StudApplicationDto;
 import lombok.RequiredArgsConstructor;
+import org.apache.http.HttpException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,15 +29,19 @@ public class ApplicationService{
     private final UserRepository userRepository;
 
     @Transactional
-    public void saveApplication(ApplicationDto a){
+    public void saveApplication(ApplicationDto a) throws HttpException {
         Application app = new Application();
-        app.setCreatedAt(LocalDateTime.now());
         Integer adminNo = userRepository.findByUserId(a.getUserId()).getUserNo();
         app.setAdminNo(adminNo);
         app.setConditions(a.getConditions());
         app.setDDay(a.getDDay());
         app.setLocation(a.getLocation());
-        app.setDueDate(a.getDueDate());
+        if (LocalDateTime.now().plusHours(24).isBefore(app.getDDay())) {
+            app.setDueDate(a.getDDay().minusHours(24));
+        }
+        else {
+            throw new HttpException("Your appointment date has to be more than 24 hours from now.");
+        }
         app.setStatus(a.getStatus());
         applicationRepository.save(app);
     }

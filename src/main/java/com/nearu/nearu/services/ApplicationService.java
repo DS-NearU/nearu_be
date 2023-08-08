@@ -32,17 +32,19 @@ public class ApplicationService{
     public void saveApplication(ApplicationDto a) throws HttpException {
         Application app = new Application();
         Integer adminNo = userRepository.findByUserId(a.getUserId()).getUserNo();
+        app.setCreatedAt(LocalDateTime.now());
         app.setAdminNo(adminNo);
         app.setConditions(a.getConditions());
         app.setDDay(a.getDDay());
+        app.setDurationHours(a.getDurationHours());
         app.setLocation(a.getLocation());
         if (LocalDateTime.now().plusHours(24).isBefore(app.getDDay())) {
             app.setDueDate(a.getDDay().minusHours(24));
         }
         else {
-            throw new HttpException("Your appointment date has to be more than 24 hours from now.");
+            throw new HttpException("Your appointment date has to be later than 24 hours from now.");
         }
-        app.setStatus(a.getStatus());
+        app.setStatus(false);
         applicationRepository.save(app);
     }
 
@@ -67,6 +69,7 @@ public class ApplicationService{
         app.setStatus(a.getStatus());
         app.setLocation(a.getLocation());
         app.setDueDate(a.getDueDate());
+        app.setDurationHours(a.getDurationHours());
         applicationRepository.save(app);
     }
 

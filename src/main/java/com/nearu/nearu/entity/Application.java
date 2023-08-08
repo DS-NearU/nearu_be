@@ -26,6 +26,9 @@ public class Application {
     @Column(name = "due_date", columnDefinition = "DATETIME")
     private LocalDateTime dueDate;
 
+    @Column(name = "duration_hours")
+    private Integer durationHours;
+
     @Column(name = "created_at", columnDefinition = "DATETIME")
     private LocalDateTime createdAt;
 
@@ -48,12 +51,13 @@ public class Application {
     public Application() {
     }
 
-    public Application(LocalDateTime dueDate, String location, String conditions, LocalDateTime dDay, Integer adminNo) {
+    public Application(LocalDateTime dueDate, String location, String conditions, LocalDateTime dDay, Integer adminNo, Integer durationHours) {
         this.dueDate = dueDate;
         this.location = location;
         this.conditions = conditions;
         this.dDay = dDay;
         this.adminNo = adminNo;
+        this.durationHours = durationHours;
     }
 
 }

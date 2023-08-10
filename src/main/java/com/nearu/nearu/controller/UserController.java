@@ -9,6 +9,7 @@ import com.nearu.nearu.request.UpdateAdminRequest;
 import com.nearu.nearu.request.UserDto;
 import com.nearu.nearu.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.apache.http.HttpException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
@@ -53,7 +54,7 @@ public class UserController extends OriginObject {
     @SessionMapper
     @Transactional
     @PutMapping("/notifications")
-    public void editNotif (SessionRequest request) {
+    public void editNotif (SessionRequest request) throws HttpException {
         UpdateAdminRequest map = map(request.getParam(), UpdateAdminRequest.class);
         userService.updateNotif(map);
     }

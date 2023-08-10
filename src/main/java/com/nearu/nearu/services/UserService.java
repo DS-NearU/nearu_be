@@ -9,6 +9,7 @@ import com.nearu.nearu.request.FavoritesDto;
 import com.nearu.nearu.request.UpdateAdminRequest;
 import com.nearu.nearu.request.UserDto;
 import lombok.RequiredArgsConstructor;
+import org.apache.http.HttpException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -68,7 +69,7 @@ public class UserService extends OriginObject{
     }
 
     @Transactional
-    public void updateNotif (UpdateAdminRequest updateAdminRequest) {
+    public void updateNotif (UpdateAdminRequest updateAdminRequest) throws HttpException {
         Integer userNo = userRepository.findByUserId(updateAdminRequest.getUserId()).getUserNo();
         Notifications notif = notificationsRepository.findByUserNo(userNo);
         notif.setEmailNotif(updateAdminRequest.getEmailNotification());
@@ -87,6 +88,8 @@ public class UserService extends OriginObject{
         favoritesRepository.saveAll(favoritesList);
         notificationsRepository.save(notif);
     }
+
+
 
     @Transactional
     public void leave(String userId){

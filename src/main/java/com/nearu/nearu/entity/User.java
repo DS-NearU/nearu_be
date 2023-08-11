@@ -31,6 +31,9 @@ public class User {
     @Column(name = "user_id")
     private String userId;
 
+    @OneToOne(mappedBy = "user")
+    private UserInfo userInfo;
+
     public User() {
     }
     public User(String userId) {

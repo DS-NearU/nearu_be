@@ -1,5 +1,6 @@
 package com.nearu.nearu.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Getter;
@@ -19,6 +20,7 @@ public class UserInfo {
     @Column(name = "user_no")
     private Integer userNo;
 
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "user_no", insertable = false, updatable = false)
     private User user;

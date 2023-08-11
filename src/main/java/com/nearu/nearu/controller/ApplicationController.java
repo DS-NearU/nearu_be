@@ -51,7 +51,7 @@ public class ApplicationController extends OriginObject {
     }
 
     @SessionMapper
-    @GetMapping("/applicants")
+    @GetMapping("/application-detail")
     public ApplicationReadResponse readApplicants(SessionRequest request){
         ApplicationDto map = map(request.getParam(), ApplicationDto.class);
         return applicationService.fetchApplicants(map.getApplicationNo());
@@ -93,10 +93,5 @@ public class ApplicationController extends OriginObject {
         StudApplicationDto map = map(request.getParam(), StudApplicationDto.class);
         applicationService.selectApplicant(map.getApplicationNo(),map.getUserNo());
     }
-
-
-
-
-
 
 }

@@ -62,14 +62,18 @@ public class ApplicationService{
     }
 
     @Transactional
-    public void updateApplication(ApplicationDto a){
+    public void updateApplication(ApplicationDto a) throws HttpException {
         Application app = applicationRepository.findByApplicationNo(a.getApplicationNo());
         app.setDDay(a.getDDay());
         app.setConditions(a.getConditions());
-        app.setStatus(a.getStatus());
         app.setLocation(a.getLocation());
-        app.setDueDate(a.getDueDate());
         app.setDurationHours(a.getDurationHours());
+        if (LocalDateTime.now().plusHours(24).isBefore(app.getDDay())) {
+            app.setDueDate(a.getDDay().minusHours(24));
+        }
+        else {
+            throw new HttpException("Your appointment date has to be later than 24 hours from now.");
+        }
         applicationRepository.save(app);
     }
 

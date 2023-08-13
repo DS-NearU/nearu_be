@@ -37,7 +37,7 @@ public class ApplicationController extends OriginObject {
     @SessionMapper
     @Transactional
     @PutMapping("/application")
-    public void edit (SessionRequest request) {
+    public void edit (SessionRequest request) throws HttpException {
         ApplicationDto map = map(request.getParam(), ApplicationDto.class);
         applicationService.updateApplication(map);
     }

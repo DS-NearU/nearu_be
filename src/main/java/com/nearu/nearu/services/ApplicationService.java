@@ -132,8 +132,8 @@ public class ApplicationService{
         Application a = applicationRepository.findByApplicationNo(applicationNo);
         if (LocalDateTime.now().isBefore(a.getDDay().minusDays(1L))) {
             studApplicationRepository.deleteByApplicationNoAndUserNo(applicationNo, userNo);
-            if (!a.getStatus()) {
-                a.setStatus(true);
+            if (a.getStatus()) {
+                a.setStatus(false);
                 applicationRepository.save(a);
             }
         }

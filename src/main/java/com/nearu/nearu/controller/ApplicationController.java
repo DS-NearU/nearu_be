@@ -37,7 +37,7 @@ public class ApplicationController extends OriginObject {
     @SessionMapper
     @Transactional
     @PutMapping("/application")
-    public void edit (SessionRequest request) {
+    public void edit (SessionRequest request) throws HttpException {
         ApplicationDto map = map(request.getParam(), ApplicationDto.class);
         applicationService.updateApplication(map);
     }
@@ -88,10 +88,10 @@ public class ApplicationController extends OriginObject {
 
     @SessionMapper
     @Transactional
-    @PutMapping("/select-applicant")
-    public void selectApplicant (SessionRequest request) {
+    @PutMapping("/cancel-student")
+    public void cancelApplicatn (SessionRequest request) {
         StudApplicationDto map = map(request.getParam(), StudApplicationDto.class);
-        applicationService.selectApplicant(map.getApplicationNo(),map.getUserNo());
+        applicationService.cancelApplicant(map.getApplicationNo(),map.getUserNo());
     }
 
 }

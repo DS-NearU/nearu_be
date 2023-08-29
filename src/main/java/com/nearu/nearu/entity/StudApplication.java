@@ -31,15 +31,5 @@ public class StudApplication {
     @ManyToOne
     @JoinColumn(name = "application_no", insertable = false, updatable = false)
     private Application application;
-
-    @Column(name = "is_confirmed")
-    private Boolean isConfirmed;
-
-    public StudApplication() {
-
-    }
-
-    public StudApplication(Boolean isConfirmed) {
-        this.isConfirmed = isConfirmed;
-    }
 }
+

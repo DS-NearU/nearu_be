@@ -1,6 +1,7 @@
 package com.nearu.nearu.services;
 
 import com.amazonaws.services.fms.model.App;
+import com.nearu.nearu.OriginObject;
 import com.nearu.nearu.entity.Application;
 import com.nearu.nearu.entity.StudApplication;
 import com.nearu.nearu.entity.UserInfo;
@@ -22,7 +23,7 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
-public class ApplicationService{
+public class ApplicationService extends Workspace {
     private final ApplicationRepository applicationRepository;
     private final StudApplicationRepository studApplicationRepository;
     private final UserInfoRepository userInfoRepository;
@@ -49,16 +50,23 @@ public class ApplicationService{
     }
 
     @Transactional
-    public void saveStudApplication(StudApplicationDto stu){
+    public void saveStudApplication(StudApplicationDto stu) {
         Integer userNo = userRepository.findByUserId(stu.getUserId()).getUserNo();
         if(studApplicationRepository.findByApplicationNoAndUserNo(stu.getApplicationNo(), userNo)!=null){
             return;
         }
-        StudApplication stud = new StudApplication();
-        stud.setUserNo(userNo);
-        stud.setApplicationNo(stu.getApplicationNo());
-        stud.setIsConfirmed(false);
-        studApplicationRepository.save(stud);
+        Application app = applicationRepository.findByApplicationNo(stu.getApplicationNo());
+        if (!app.getStatus()) {
+            StudApplication stud = new StudApplication();
+            stud.setUserNo(userNo);
+            stud.setApplicationNo(stu.getApplicationNo());
+            app.setStatus(true);
+            studApplicationRepository.save(stud);
+            applicationRepository.save(app);
+        }
+        else {
+            // TODO: throw new HttpException("The reservation is already matched with a volunteer.");
+        }
     }
 
     @Transactional
@@ -86,7 +94,6 @@ public class ApplicationService{
     @Transactional
     public void updateStudApplication(StudApplicationDto stu){
         StudApplication stud = studApplicationRepository.findByApplicationNoAndUserNo(stu.getApplicationNo(), stu.getUserNo());
-        stud.setIsConfirmed(stu.getIsConfirmed());
         studApplicationRepository.save(stud);
     }
 
@@ -137,6 +144,9 @@ public class ApplicationService{
                 applicationRepository.save(a);
             }
         }
+        else {
+            // TODO: Exception needed --> print "You can not cancel your service before shorter than 1 day of reservation."
+        }
      }
 
      public ArrayList<Application> fetchAllByAdmin(String userId){
@@ -152,12 +162,15 @@ public class ApplicationService{
         return studApplicationRepository.findByApplicationNoAndUserNo(applicationNo, userNo);
      }
 
-     public void selectApplicant(Integer applicationNo, Integer userNo){
-        Application a = applicationRepository.findByApplicationNo(applicationNo);
-        a.setStatus(false);
-        applicationRepository.save(a);
-        StudApplication fetch = studApplicationRepository.findByApplicationNoAndUserNo(applicationNo, userNo);
-        fetch.setIsConfirmed(true);
-        studApplicationRepository.save(fetch);
+     public void cancelApplicant(Integer applicationNo, Integer userNo) {
+         Application a = applicationRepository.findByApplicationNo(applicationNo);
+         if (LocalDateTime.now().isBefore(a.getDDay().minusDays(1L))) {
+             studApplicationRepository.deleteByApplicationNoAndUserNo(applicationNo, userNo);
+             a.setStatus(false);
+             applicationRepository.save(a);
+         }
+         else {
+            // TODO: Exception needed --> print "The cancellation must happen minimum of 1 day before reservation date"
+         }
      }
 }

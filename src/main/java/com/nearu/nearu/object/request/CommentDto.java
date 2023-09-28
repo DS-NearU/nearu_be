@@ -1,4 +1,5 @@
-package com.nearu.nearu.request;
+package com.nearu.nearu.object.request;
+
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Getter;
@@ -7,9 +8,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class StudApplicationDto {
+public class CommentDto {
+    private Integer commentNo;
     private Integer userNo;
-    private Integer applicationNo;
-    private Boolean isConfirmed;
+    private Integer qaNo;
+    private String content;
     private String userId;
 }

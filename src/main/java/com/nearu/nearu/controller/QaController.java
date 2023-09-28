@@ -3,18 +3,15 @@ package com.nearu.nearu.controller;
 import com.nearu.nearu.OriginObject;
 import com.nearu.nearu.SessionRequest;
 import com.nearu.nearu.config.flows.SessionMapper;
-import com.nearu.nearu.request.CommentDto;
-import com.nearu.nearu.request.QaCountsResponse;
-import com.nearu.nearu.request.QaDto;
+import com.nearu.nearu.object.request.CommentDto;
+import com.nearu.nearu.object.request.QaCountsResponse;
+import com.nearu.nearu.object.request.QaDto;
 import com.nearu.nearu.services.QaService;
-import com.nearu.nearu.entity.Comment;
-import com.nearu.nearu.entity.Qa;
-import com.nearu.nearu.request.QaReadResponse;
+import com.nearu.nearu.object.request.QaReadResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
 import java.util.*;
 
 @RestController

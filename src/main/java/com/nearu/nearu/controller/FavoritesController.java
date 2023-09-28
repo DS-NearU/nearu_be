@@ -3,7 +3,7 @@ import com.nearu.nearu.OriginObject;
 import com.nearu.nearu.SessionRequest;
 import com.nearu.nearu.config.flows.SessionMapper;
 import com.nearu.nearu.entity.Favorites;
-import com.nearu.nearu.request.FavoritesDto;
+import com.nearu.nearu.object.request.FavoritesDto;
 import com.nearu.nearu.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

@@ -1,19 +1,16 @@
-package com.nearu.nearu.request;
-
+package com.nearu.nearu.object.request;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
 @Getter
 @Setter
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class FavoritesDto {
-    private Integer favoriteNo;
-    private String favType;
+public class RatingDto {
+    private Integer ratingNo;
     private Integer userNo;
-    private String address;
+    private Integer applicationNo;
+    private Integer rating;
+    private String comment;
     private String userId;
 }

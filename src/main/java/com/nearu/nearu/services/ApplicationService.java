@@ -1,7 +1,5 @@
 package com.nearu.nearu.services;
 
-import com.amazonaws.services.fms.model.App;
-import com.nearu.nearu.OriginObject;
 import com.nearu.nearu.entity.Application;
 import com.nearu.nearu.entity.StudApplication;
 import com.nearu.nearu.entity.UserInfo;
@@ -9,10 +7,10 @@ import com.nearu.nearu.repository.ApplicationRepository;
 import com.nearu.nearu.repository.StudApplicationRepository;
 import com.nearu.nearu.repository.UserInfoRepository;
 import com.nearu.nearu.repository.UserRepository;
-import com.nearu.nearu.request.ApplicationDto;
-import com.nearu.nearu.request.ApplicationReadAllResponse;
-import com.nearu.nearu.request.ApplicationReadResponse;
-import com.nearu.nearu.request.StudApplicationDto;
+import com.nearu.nearu.object.request.ApplicationDto;
+import com.nearu.nearu.object.request.ApplicationReadAllResponse;
+import com.nearu.nearu.object.request.ApplicationReadResponse;
+import com.nearu.nearu.object.request.StudApplicationDto;
 import lombok.RequiredArgsConstructor;
 import org.apache.http.HttpException;
 import org.springframework.stereotype.Service;

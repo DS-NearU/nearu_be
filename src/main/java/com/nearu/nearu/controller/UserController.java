@@ -4,16 +4,14 @@ import com.nearu.nearu.OriginObject;
 import com.nearu.nearu.SessionRequest;
 import com.nearu.nearu.config.flows.SessionMapper;
 import com.nearu.nearu.entity.*;
-import com.nearu.nearu.request.FavoritesDto;
-import com.nearu.nearu.request.UpdateAdminRequest;
-import com.nearu.nearu.request.UserDto;
+import com.nearu.nearu.object.request.UpdateAdminRequest;
+import com.nearu.nearu.object.request.UserDto;
 import com.nearu.nearu.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.apache.http.HttpException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,7 +19,7 @@ public class UserController extends OriginObject {
 
     private final UserService userService;
 
-    @SessionMapper
+    @SessionMapper(checkSession = false)
     @Transactional
     @PostMapping("/sign-up")
     public void signUp(SessionRequest request) {
@@ -29,7 +27,7 @@ public class UserController extends OriginObject {
         userService.saveUser(map);
     }
 
-    @SessionMapper
+    @SessionMapper(checkSession = false)
     @GetMapping("/sign-in")
     public User signIn(SessionRequest request){
         UserDto map = map(request.getParam(), UserDto.class);

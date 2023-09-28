@@ -28,11 +28,15 @@ public class User {
     @Convert(converter = UserTypeConverter.class)
     private UserType userType;
 
-    @Column(name = "user_id")
+    @Column(name = "user_id", unique = true)
     private String userId;
 
     @OneToOne(mappedBy = "user")
     private UserInfo userInfo;
+
+    @OneToOne(mappedBy = "user")
+    private UserSession userSession;
+
 
     public User() {
     }

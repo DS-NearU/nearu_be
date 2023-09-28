@@ -1,4 +1,4 @@
-package com.nearu.nearu.request;
+package com.nearu.nearu.object.request;
 
 import com.nearu.nearu.entity.Application;
 import lombok.Getter;

@@ -4,14 +4,12 @@ import com.nearu.nearu.entity.*;
 import com.nearu.nearu.repository.RatingRepository;
 import com.nearu.nearu.repository.UserInfoRepository;
 import com.nearu.nearu.repository.UserRepository;
-import com.nearu.nearu.request.RatingDto;
+import com.nearu.nearu.object.request.RatingDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-
-import java.util.*;
 
 @Service
 @RequiredArgsConstructor

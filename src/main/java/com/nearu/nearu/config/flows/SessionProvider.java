@@ -4,6 +4,7 @@ import com.amazonaws.services.workspaces.model.Workspace;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nearu.nearu.SessionRequest;
 import com.nearu.nearu.util.SESSION;
+import com.nearu.nearu.services.SignService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.IOUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -30,6 +31,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class SessionProvider extends Workspace implements HandlerInterceptor {
 
+    private final SignService signService;
+
     private static final Logger logger = LoggerFactory.getLogger(SessionProvider.class);
 //    private final SignService signService;
 
@@ -37,9 +40,9 @@ public class SessionProvider extends Workspace implements HandlerInterceptor {
     public Object flow(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         SessionMapper sessionMapping = getSessionMapping(proceedingJoinPoint);
         SessionRequest sessionRequest = getRequestParams();
-//        if(sessionMapping.checkSession()){
-//            signService.checkSession(sessionRequest, sessionMapping.throwError());
-//        }
+        if(sessionMapping.checkSession()){
+            signService.checkSession(sessionRequest, sessionMapping.throwError());
+        }
         Object proceed = method(proceedingJoinPoint, sessionRequest);
         return returnMap(sessionRequest, proceed);
     }

@@ -30,7 +30,7 @@ public class UserSession extends OriginObject {
     @Column(name = "user_no")
     private Integer userNo;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @OneToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "user_no", insertable = false, updatable = false)
     private User user;
 
@@ -65,7 +65,7 @@ public class UserSession extends OriginObject {
                     ).compact();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-//            withException("120-002");
+            withException("120-002");
         }
     }
 

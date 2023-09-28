@@ -1,4 +1,4 @@
-package com.nearu.nearu.request;
+package com.nearu.nearu.object.request;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;

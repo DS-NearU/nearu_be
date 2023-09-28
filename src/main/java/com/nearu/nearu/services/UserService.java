@@ -4,6 +4,7 @@ import com.nearu.nearu.OriginObject;
 import com.nearu.nearu.entity.*;
 import com.nearu.nearu.entity.types.FavoriteTypes;
 import com.nearu.nearu.entity.types.UserType;
+import com.nearu.nearu.object.response.SessionResponse;
 import com.nearu.nearu.repository.*;
 import com.nearu.nearu.object.request.FavoritesDto;
 import com.nearu.nearu.object.request.UpdateAdminRequest;
@@ -22,6 +23,7 @@ public class UserService extends OriginObject{
     private final UserRepository userRepository;
     private final UserInfoRepository userInfoRepository;
     private final UserPwRepository userPwRepository;
+    private final UserSessionRepository userSessionRepository;
     private final NotificationsRepository notificationsRepository;
     private final FavoritesRepository favoritesRepository;
 
@@ -42,7 +44,7 @@ public class UserService extends OriginObject{
         userInfo.setPresentation(userDto.getPresentation());
         userInfo.setSimilarExp(userDto.getExperience());
         UserPw userPw = new UserPw();
-        userPw.setPassword(userDto.getPassword());
+        userPw.makePassword(userDto.getPassword());
         userRepository.save(user);//db에저장
         userInfo.setUserNo(user.getUserNo());
         userPw.setUserNo(user.getUserNo());
@@ -179,6 +181,32 @@ public class UserService extends OriginObject{
     public void deleteFavorites (Integer favoriteNo){
         favoritesRepository.deleteByFavoriteNo(favoriteNo);
     }
+
+
+
+
+
+    public UserSession setSession(User session/*, UserSessionTypes userSessionTypes*/){
+        userSessionRepository.deleteAllByUserNo(session.getUserNo()/*, userSessionTypes*/);
+        UserSession userSession = new UserSession();
+        userSession.setUser(session);
+        userSession.makeSessionKey();
+//        userSession.setSessionTypes(userSessionTypes);
+        userSessionRepository.save(userSession);
+        return userSession;
+    }
+
+
+
+    public SessionResponse setResponseData(User user, String sessionKey){
+        SessionResponse sessionResponseDto = new SessionResponse();
+        sessionResponseDto.setUserId(user.getUserId());
+        sessionResponseDto.setUsername(user.getUserInfo().getName());
+        sessionResponseDto.setEmail(user.getUserInfo().getEmail());
+        sessionResponseDto.setSessionKey(sessionKey);
+        return sessionResponseDto;
+    }
+
 
 
 }

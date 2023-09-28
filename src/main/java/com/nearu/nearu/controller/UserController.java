@@ -6,6 +6,8 @@ import com.nearu.nearu.config.flows.SessionMapper;
 import com.nearu.nearu.entity.*;
 import com.nearu.nearu.object.request.UpdateAdminRequest;
 import com.nearu.nearu.object.request.UserDto;
+import com.nearu.nearu.object.response.SessionResponse;
+import com.nearu.nearu.repository.UserPwRepository;
 import com.nearu.nearu.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.apache.http.HttpException;
@@ -18,6 +20,7 @@ import javax.transaction.Transactional;
 public class UserController extends OriginObject {
 
     private final UserService userService;
+    private final UserPwRepository userPasswordsRepository;
 
     @SessionMapper(checkSession = false)
     @Transactional
@@ -27,12 +30,20 @@ public class UserController extends OriginObject {
         userService.saveUser(map);
     }
 
+    @Transactional
     @SessionMapper(checkSession = false)
-    @GetMapping("/sign-in")
-    public User signIn(SessionRequest request){
-        UserDto map = map(request.getParam(), UserDto.class);
-        User match = userService.match(map.getUserId(), map.getPassword());
-        return match;
+    @PostMapping("/login")
+    public SessionResponse loginWithId(SessionRequest request){
+        UserDto loginEmailRequest = map(request.getParam(), UserDto.class);
+        UserPw userPasswordByUserEmail = userPasswordsRepository.findByUser_UserId(loginEmailRequest.getUserId());
+        if(!bePresent(userPasswordByUserEmail))
+            withException(""); //존재하지않는 아이디
+        userPasswordByUserEmail.loginWithPassword(loginEmailRequest.getPassword());
+        User users = userPasswordByUserEmail.getUser();
+//        User users = null;
+        UserSession userSession = userService.setSession(users);
+        SessionResponse sessionResponse = userService.setResponseData(users, userSession.getSessionKey());
+        return sessionResponse;
     }
     @SessionMapper
     @GetMapping("/profile")

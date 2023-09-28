@@ -57,14 +57,6 @@ public class SignService extends Workspace {
         withException("000-002", HttpStatus.UNAUTHORIZED);
     }
 
-    public SessionResponse setResponseData(User user, String sessionKey){
-        SessionResponse sessionResponseDto = new SessionResponse();
-        sessionResponseDto.setUserId(user.getUserId());
-        sessionResponseDto.setUsername(user.getUserInfo().getName());
-        sessionResponseDto.setEmail(user.getUserInfo().getEmail());
-        sessionResponseDto.setSessionKey(sessionKey);
-        return sessionResponseDto;
-    }
 
     protected Claims parseClaimsFromSessionKey(String sessAuthKey){
         int i = sessAuthKey.lastIndexOf('.');
@@ -81,5 +73,6 @@ public class SignService extends Workspace {
         userSessionRepository.save(userSession);
         return userSession;
     }
+
 
 }

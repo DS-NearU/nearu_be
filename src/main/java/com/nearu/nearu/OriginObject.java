@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import com.nearu.nearu.object.exceptions.BusinessException;
 import org.springframework.http.HttpStatus;
 
 import java.util.List;
@@ -29,39 +30,39 @@ public class OriginObject {
         return gson;
     }
 
-//    @JsonIgnore
-//    protected void withStringException(String langCode){
-//        withStringException(langCode, HttpStatus.BAD_REQUEST);
-//    }
-//
-//    @JsonIgnore
-//    protected void withStringException(String langCode, HttpStatus httpStatus){
-//        BusinessException businessException = new BusinessException(langCode, httpStatus);
-//        businessException.setFromDatabase(false);
-//        throw businessException;
-//    }
-//
-//    @JsonIgnore
-//    protected void withException(String langCode){
-//        withException(langCode, HttpStatus.BAD_REQUEST);
-//    }
-//
-//    @JsonIgnore
-//    protected void withException(String langCode, HttpStatus httpStatus){
-//        throw new BusinessException(langCode, httpStatus);
-//    }
-//
-//    protected void writeMessage(String message){
-//        writeMessage(message, HttpStatus.BAD_REQUEST);
-//    }
-//
-//    protected void writeMessage(String message, HttpStatus httpStatus){
-//        BusinessException businessException = new BusinessException();
-//        businessException.setErr_code("");
-//        businessException.setMsg(message);
-//        businessException.setErrHttpStatus(httpStatus);
-//        throw businessException;
-//    }
+    @JsonIgnore
+    protected void withStringException(String langCode){
+        withStringException(langCode, HttpStatus.BAD_REQUEST);
+    }
+
+    @JsonIgnore
+    protected void withStringException(String langCode, HttpStatus httpStatus){
+        BusinessException businessException = new BusinessException(langCode, httpStatus);
+        businessException.setFromDatabase(false);
+        throw businessException;
+    }
+
+    @JsonIgnore
+    protected void withException(String langCode){
+        withException(langCode, HttpStatus.BAD_REQUEST);
+    }
+
+    @JsonIgnore
+    protected void withException(String langCode, HttpStatus httpStatus){
+        throw new BusinessException(langCode, httpStatus);
+    }
+
+    protected void writeMessage(String message){
+        writeMessage(message, HttpStatus.BAD_REQUEST);
+    }
+
+    protected void writeMessage(String message, HttpStatus httpStatus){
+        BusinessException businessException = new BusinessException();
+        businessException.setErr_code("");
+        businessException.setMsg(message);
+        businessException.setErrHttpStatus(httpStatus);
+        throw businessException;
+    }
 
     @JsonIgnore
     protected <T> boolean bePresent(T obj){

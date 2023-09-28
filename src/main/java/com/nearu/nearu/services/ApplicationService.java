@@ -23,7 +23,7 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
-public class ApplicationService extends Workspace {
+public class ApplicationService {
     private final ApplicationRepository applicationRepository;
     private final StudApplicationRepository studApplicationRepository;
     private final UserInfoRepository userInfoRepository;

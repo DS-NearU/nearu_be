@@ -187,10 +187,12 @@ public class UserService extends OriginObject{
 
 
     public UserSession setSession(User session/*, UserSessionTypes userSessionTypes*/){
-        userSessionRepository.deleteAllByUserNo(session.getUserNo()/*, userSessionTypes*/);
+//        userSessionRepository.deleteAllByUserNo(session.getUserNo()/*, userSessionTypes*/);
         UserSession userSession = new UserSession();
         userSession.setUser(session);
         userSession.makeSessionKey();
+        String sessionKey = userSession.getSessionKey();
+        System.out.println(sessionKey.length());
 //        userSession.setSessionTypes(userSessionTypes);
         userSessionRepository.save(userSession);
         return userSession;
@@ -201,8 +203,9 @@ public class UserService extends OriginObject{
     public SessionResponse setResponseData(User user, String sessionKey){
         SessionResponse sessionResponseDto = new SessionResponse();
         sessionResponseDto.setUserId(user.getUserId());
-        sessionResponseDto.setUsername(user.getUserInfo().getName());
-        sessionResponseDto.setEmail(user.getUserInfo().getEmail());
+        UserInfo info = userInfoRepository.findByUserNo(user.getUserNo());
+        sessionResponseDto.setUsername(info.getName());
+        sessionResponseDto.setEmail(info.getEmail());
         sessionResponseDto.setSessionKey(sessionKey);
         return sessionResponseDto;
     }

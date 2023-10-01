@@ -19,10 +19,9 @@ import java.time.ZonedDateTime;
 import java.util.Date;
 
 @Entity
-@Table(name = "user_sessions", catalog = SESSION.SCHEME_SERVICE)
+@Table(name = "user_sessions")
 @Getter
 @Setter
-@NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class UserSession extends OriginObject {
 
@@ -30,7 +29,7 @@ public class UserSession extends OriginObject {
     @Column(name = "user_no")
     private Integer userNo;
 
-    @OneToOne(fetch = FetchType.EAGER, optional = false)
+    @OneToOne(cascade = CascadeType.MERGE ,fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_no", insertable = false, updatable = false)
     private User user;
 

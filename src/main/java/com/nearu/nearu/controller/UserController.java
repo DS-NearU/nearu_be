@@ -32,7 +32,7 @@ public class UserController extends OriginObject {
 
     @Transactional
     @SessionMapper(checkSession = false)
-    @PostMapping("/login")
+    @PutMapping("/sign-in")
     public SessionResponse loginWithId(SessionRequest request){
         UserDto loginEmailRequest = map(request.getParam(), UserDto.class);
         UserPw userPasswordByUserEmail = userPasswordsRepository.findByUser_UserId(loginEmailRequest.getUserId());

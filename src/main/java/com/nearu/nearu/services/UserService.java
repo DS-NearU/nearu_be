@@ -156,16 +156,16 @@ public class UserService extends OriginObject{
         return notif;
     }
     @Transactional
-    public void saveFavorites(FavoritesDto f) {
+    public void saveFavorites(FavoritesDto f, User session) {
         Favorites favorites = new Favorites();
-        Integer userNo = userRepository.findByUserId(f.getUserId()).getUserNo();
+        Integer userNo = session.getUserNo();
         favorites.setUserNo(userNo);
         favorites.setAddress(f.getAddress());
         favoritesRepository.save(favorites);
     }
 
-    public ArrayList<Favorites> fetchAllFavorites (String userId) {
-        Integer userNo = userRepository.findByUserId(userId).getUserNo();
+    public ArrayList<Favorites> fetchAllFavorites (User session) {
+        Integer userNo = session.getUserNo();
         return favoritesRepository.findAllByUserNo(userNo);
     }
 

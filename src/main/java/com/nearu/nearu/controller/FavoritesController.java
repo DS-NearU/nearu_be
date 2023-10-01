@@ -21,14 +21,14 @@ public class FavoritesController extends OriginObject {
     @PostMapping("/favorites")
     public void addAddress(SessionRequest request){
         FavoritesDto map = map(request.getParam(), FavoritesDto.class);
-        userService.saveFavorites(map);
+        userService.saveFavorites(map, request.getSession());
     }
 
     @SessionMapper
     @GetMapping("/favorites")
     public ArrayList<Favorites> readAll(SessionRequest request){
         FavoritesDto map = map(request.getParam(), FavoritesDto.class);
-        return userService.fetchAllFavorites(map.getUserId());
+        return userService.fetchAllFavorites(request.getSession());
     }
 
     @SessionMapper

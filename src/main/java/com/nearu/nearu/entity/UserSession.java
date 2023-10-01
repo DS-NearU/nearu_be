@@ -29,7 +29,7 @@ public class UserSession extends OriginObject {
     @Column(name = "user_no")
     private Integer userNo;
 
-    @OneToOne(cascade = CascadeType.MERGE ,fetch = FetchType.LAZY, optional = false)
+    @OneToOne(cascade = CascadeType.MERGE ,fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "user_no", insertable = false, updatable = false)
     private User user;
 

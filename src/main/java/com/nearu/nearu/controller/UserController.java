@@ -49,7 +49,7 @@ public class UserController extends OriginObject {
     @GetMapping("/profile")
     public UserDto viewProfile (SessionRequest request) {
         UserDto map = map(request.getParam(), UserDto.class);
-        return userService.fetch(map.getUserId());
+        return userService.fetch(request.getSession());
     }
 
     @SessionMapper
@@ -57,7 +57,7 @@ public class UserController extends OriginObject {
     @PutMapping("/profile")
     public void editProfile (SessionRequest request) {
         UserDto map = map(request.getParam(), UserDto.class);
-        userService.update(map);
+        userService.update(map, request.getSession());
     }
 
     @SessionMapper
@@ -65,14 +65,14 @@ public class UserController extends OriginObject {
     @PutMapping("/notifications")
     public void editNotif (SessionRequest request) throws HttpException {
         UpdateAdminRequest map = map(request.getParam(), UpdateAdminRequest.class);
-        userService.updateNotif(map);
+        userService.updateNotif(map, request.getSession());
     }
 
     @SessionMapper
     @GetMapping("/notifications")
     public Notifications viewNotifications (SessionRequest request) {
         UserDto map = map(request.getParam(), UserDto.class);
-        return userService.fetchNotif(map.getUserId());
+        return userService.fetchNotif(request.getSession());
     }
 
     @SessionMapper
@@ -80,7 +80,7 @@ public class UserController extends OriginObject {
     @DeleteMapping("/leave")
     public void leave (SessionRequest request) {
         UserDto map = map(request.getParam(), UserDto.class);
-        userService.leave(map.getUserId());
+        userService.leave(request.getSession());
     }
 
     @SessionMapper
@@ -88,7 +88,7 @@ public class UserController extends OriginObject {
     @PutMapping("/update-pw")
     public void editPw(SessionRequest request){
         UserDto map = map(request.getParam(), UserDto.class);
-        userService.updatePw(map);
+        userService.updatePw(map, request.getSession());
     }
 
 }

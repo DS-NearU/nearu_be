@@ -8,9 +8,7 @@ import lombok.Setter;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class RatingDto {
     private Integer ratingNo;
-    private Integer userNo;
     private Integer applicationNo;
     private Integer rating;
     private String comment;
-    private String userId;
 }

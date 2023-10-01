@@ -59,8 +59,8 @@ public class UserService extends OriginObject{
     }
 
     @Transactional
-    public void update(UserDto u){
-        Integer userNo = userRepository.findByUserId(u.getUserId()).getUserNo();
+    public void update(UserDto u, User session){
+        Integer userNo = session.getUserNo();
         UserInfo byUserNo = userInfoRepository.findByUserNo(userNo);
         byUserNo.setName(u.getName());
         byUserNo.setEmail(u.getEmail());
@@ -71,8 +71,8 @@ public class UserService extends OriginObject{
     }
 
     @Transactional
-    public void updateNotif (UpdateAdminRequest updateAdminRequest) throws HttpException {
-        Integer userNo = userRepository.findByUserId(updateAdminRequest.getUserId()).getUserNo();
+    public void updateNotif (UpdateAdminRequest updateAdminRequest, User session) throws HttpException {
+        Integer userNo = session.getUserNo();
         Notifications notif = notificationsRepository.findByUserNo(userNo);
         notif.setEmailNotif(updateAdminRequest.getEmailNotification());
         notif.setMsgNotif(updateAdminRequest.getMsgNotification());
@@ -94,8 +94,8 @@ public class UserService extends OriginObject{
 
 
     @Transactional
-    public void leave(String userId){
-        Integer userNo = userRepository.findByUserId(userId).getUserNo();
+    public void leave(User session){
+        Integer userNo = session.getUserNo();
         userInfoRepository.deleteByUserNo(userNo);
         userPwRepository.deleteByUserNo(userNo);
         favoritesRepository.deleteAllByUserNo(userNo);
@@ -104,8 +104,8 @@ public class UserService extends OriginObject{
     }
 
     @Transactional
-    public void updatePw(UserDto u){
-        Integer userNo = userRepository.findByUserId(u.getUserId()).getUserNo();
+    public void updatePw(UserDto u, User session){
+        Integer userNo = session.getUserNo();
         UserPw password = userPwRepository.findByUserNo(userNo);
         password.setPassword(u.getPassword());
         userPwRepository.save(password);
@@ -117,11 +117,10 @@ public class UserService extends OriginObject{
             return user;
         return null;
     }
-    public UserDto fetch(String userId){
-        User user = userRepository.findByUserId(userId);
+    public UserDto fetch(User user){
         Integer userNo = user.getUserNo();
         UserDto u = new UserDto();
-        u.setUserId(userId);
+        u.setUserId(user.getUserId());
         u.setType(user.getUserType().getType());
         UserInfo info = userInfoRepository.findByUserNo(userNo);
         u.setName(info.getName());
@@ -148,8 +147,7 @@ public class UserService extends OriginObject{
     }
 
     @Transactional
-    public Notifications fetchNotif(String userId){
-        User user = userRepository.findByUserId(userId);
+    public Notifications fetchNotif(User user){
         Integer userNo = user.getUserNo();
         Notifications notif = notificationsRepository.findByUserNo(userNo);
 

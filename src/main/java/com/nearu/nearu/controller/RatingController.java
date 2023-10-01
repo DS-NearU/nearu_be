@@ -28,7 +28,7 @@ public class RatingController extends OriginObject {
     @PostMapping("/rating")
     public void create(SessionRequest request){
         RatingDto map = map(request.getParam(), RatingDto.class);
-        ratingService.saveRating(map);
+        ratingService.saveRating(map, request.getSession());
         // set --> save --> update
     }
 
@@ -36,7 +36,7 @@ public class RatingController extends OriginObject {
     @GetMapping("/rate-all")
     public ArrayList<Rating> readAll(SessionRequest request){
         RatingDto map = map(request.getParam(), RatingDto.class);
-        return ratingService.fetchAllNeeder(map.getUserId());
+        return ratingService.fetchAllNeeder(request.getSession());
     }
 
     @SessionMapper
@@ -44,6 +44,6 @@ public class RatingController extends OriginObject {
     @DeleteMapping("/rating")
     public void delete(SessionRequest request){
         RatingDto map = map(request.getParam(), RatingDto.class);
-        ratingService.delete(map);
+        ratingService.delete(map, request.getSession());
     }
 }

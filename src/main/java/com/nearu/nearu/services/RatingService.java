@@ -19,9 +19,9 @@ public class RatingService extends OriginObject {
     private final UserRepository userRepository;
 
     @Transactional
-    public void saveRating(RatingDto r){
+    public void saveRating(RatingDto r, User session){
         Rating rating = new Rating();
-        Integer userNo = userRepository.findByUserId(r.getUserId()).getUserNo();
+        Integer userNo = session.getUserNo();
         rating.setRating(r.getRating());
         rating.setUserNo(userNo);
         rating.setComment(r.getComment());
@@ -37,14 +37,14 @@ public class RatingService extends OriginObject {
         return ratingRepository.findAllByUserNo(userNo);
     }
 
-    public ArrayList<Rating> fetchAllNeeder(String userId){
-        Integer adminNo = userRepository.findByUserId(userId).getUserNo();
+    public ArrayList<Rating> fetchAllNeeder(User session){
+        Integer adminNo = session.getUserNo();
         return ratingRepository.findAllByApplication_AdminNo(adminNo);
     }
 
     @Transactional
-    public void delete(RatingDto r){
-        Integer userNo = userRepository.findByUserId(r.getUserId()).getUserNo();
+    public void delete(RatingDto r, User session){
+        Integer userNo = session.getUserNo();
         UserInfo userInfo = userInfoRepository.findByUserNo(userNo);
         userInfo.removeRating(r.getRating());
         userInfoRepository.save(userInfo);

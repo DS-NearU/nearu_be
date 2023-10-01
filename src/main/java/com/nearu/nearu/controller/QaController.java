@@ -48,7 +48,7 @@ public class QaController extends OriginObject {
     @PostMapping("/comment")
     public void commentPost(SessionRequest request) {
         CommentDto map = map(request.getParam(), CommentDto.class);
-        qaService.commentPost(map);
+        qaService.commentPost(map, request.getSession());
     }
 
     @SessionMapper

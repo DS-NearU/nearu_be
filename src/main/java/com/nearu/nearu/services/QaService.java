@@ -30,13 +30,12 @@ public class QaService {
     @Transactional
     public void post (QaDto q, User session){
         Qa qa = new Qa();
-        Integer userNo = userRepository.findByUserNo(q.getUserNo()).getUserNo();
+        Integer userNo = session.getUserNo();
         qa.setAnonymous(q.getAnonymous());
         qa.setUserNo(userNo);
         qa.setTitle(q.getTitle());
         qa.setQuestion(q.getQuestion());
         qa.setCreatedDt(LocalDateTime.now());
-
         qaRepository.save(qa);
     }
 
@@ -95,9 +94,9 @@ public class QaService {
     }
 
     @Transactional
-    public void commentPost (CommentDto c) {
+    public void commentPost (CommentDto c, User session) {
         Comment com = new Comment();
-        Integer userNo = userRepository.findByUserId(c.getUserId()).getUserNo();
+        Integer userNo = session.getUserNo();
         com.setUserNo(userNo);
         com.setQaNo(c.getQaNo());
         com.setContent(c.getContent());

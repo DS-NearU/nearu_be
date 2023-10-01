@@ -34,9 +34,6 @@ public class User {
     @OneToOne(mappedBy = "user")
     private UserInfo userInfo;
 
-    @OneToOne(mappedBy = "user")
-    private UserSession userSession;
-
 
     public User() {
     }

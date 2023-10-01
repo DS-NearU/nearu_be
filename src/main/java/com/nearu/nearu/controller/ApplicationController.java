@@ -28,7 +28,7 @@ public class ApplicationController extends OriginObject {
     @PostMapping("/application")
     public void upload (SessionRequest request) throws HttpException {
         ApplicationDto map = map(request.getParam(), ApplicationDto.class);
-        applicationService.saveApplication(map);
+        applicationService.saveApplication(map, request.getSession());
     }
 
     @SessionMapper
@@ -60,12 +60,12 @@ public class ApplicationController extends OriginObject {
         return applicationService.fetchAllApplications();
     }
 
-    @SessionMapper
+    @SessionMapper(checkSession = true)
     @Transactional
     @PostMapping("/register")
     public void register (SessionRequest request) {
         StudApplicationDto map = map(request.getParam(), StudApplicationDto.class);
-        applicationService.saveStudApplication(map);
+        applicationService.saveStudApplication(map, request.getSession());
     }
 
     @SessionMapper
@@ -80,13 +80,13 @@ public class ApplicationController extends OriginObject {
     @GetMapping("/my-applications")
     public ArrayList<Application> viewMyApplications (SessionRequest request) {
         ApplicationDto map = map(request.getParam(), ApplicationDto.class);
-        return applicationService.fetchAllByAdmin(map.getUserId());
+        return applicationService.fetchAllByAdmin(request.getSession());
     }
 
     @SessionMapper
     @Transactional
     @PutMapping("/cancel-student")
-    public void cancelApplicatn (SessionRequest request) {
+    public void cancelApplicant (SessionRequest request) {
         StudApplicationDto map = map(request.getParam(), StudApplicationDto.class);
         applicationService.cancelApplicant(map.getApplicationNo(),map.getUserNo());
     }

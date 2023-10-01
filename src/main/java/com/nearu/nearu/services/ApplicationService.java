@@ -1,7 +1,9 @@
 package com.nearu.nearu.services;
 
+import com.nearu.nearu.OriginObject;
 import com.nearu.nearu.entity.Application;
 import com.nearu.nearu.entity.StudApplication;
+import com.nearu.nearu.entity.User;
 import com.nearu.nearu.entity.UserInfo;
 import com.nearu.nearu.repository.ApplicationRepository;
 import com.nearu.nearu.repository.StudApplicationRepository;
@@ -21,16 +23,16 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
-public class ApplicationService {
+public class ApplicationService extends OriginObject {
     private final ApplicationRepository applicationRepository;
     private final StudApplicationRepository studApplicationRepository;
     private final UserInfoRepository userInfoRepository;
     private final UserRepository userRepository;
 
     @Transactional
-    public void saveApplication(ApplicationDto a) throws HttpException {
+    public void saveApplication(ApplicationDto a, User session) throws HttpException {
         Application app = new Application();
-        Integer adminNo = userRepository.findByUserId(a.getUserId()).getUserNo();
+        Integer adminNo = session.getUserNo();
         app.setCreatedAt(LocalDateTime.now());
         app.setAdminNo(adminNo);
         app.setConditions(a.getConditions());
@@ -48,8 +50,8 @@ public class ApplicationService {
     }
 
     @Transactional
-    public void saveStudApplication(StudApplicationDto stu) {
-        Integer userNo = userRepository.findByUserId(stu.getUserId()).getUserNo();
+    public void saveStudApplication(StudApplicationDto stu, User session) {
+        Integer userNo = session.getUserNo();
         if(studApplicationRepository.findByApplicationNoAndUserNo(stu.getApplicationNo(), userNo)!=null){
             return;
         }
@@ -79,7 +81,8 @@ public class ApplicationService {
                 app.setDueDate(a.getDDay().minusHours(24));
             }
             else {
-                throw new HttpException("Your appointment date has to be later than 24 hours from now.");
+                withException("100-001");
+               // throw new HttpException("Your appointment date has to be later than 24 hours from now.");
             }
             applicationRepository.save(app);
         }
@@ -147,8 +150,8 @@ public class ApplicationService {
         }
      }
 
-     public ArrayList<Application> fetchAllByAdmin(String userId){
-        Integer adminNo = userRepository.findByUserId(userId).getUserNo();
+     public ArrayList<Application> fetchAllByAdmin(User session){
+        Integer adminNo = session.getUserNo();
         return applicationRepository.findAllByAdminNo(adminNo);
      }
 

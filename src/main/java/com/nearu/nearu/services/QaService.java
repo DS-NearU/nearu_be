@@ -1,6 +1,7 @@
 package com.nearu.nearu.services;
 import com.nearu.nearu.entity.Comment;
 import com.nearu.nearu.entity.Qa;
+import com.nearu.nearu.entity.User;
 import com.nearu.nearu.repository.CommentRepository;
 import com.nearu.nearu.repository.QaRepository;
 import com.nearu.nearu.repository.UserInfoRepository;
@@ -27,7 +28,7 @@ public class QaService {
 
     // comment update, comment delete
     @Transactional
-    public void post (QaDto q){
+    public void post (QaDto q, User session){
         Qa qa = new Qa();
         Integer userNo = userRepository.findByUserNo(q.getUserNo()).getUserNo();
         qa.setAnonymous(q.getAnonymous());

@@ -24,7 +24,7 @@ public class QaController extends OriginObject {
     @PostMapping("/qa")
     public void post(SessionRequest request){
         QaDto map = map(request.getParam(), QaDto.class);
-        qaService.post(map);
+        qaService.post(map, request.getSession());
     }
 
     @SessionMapper

@@ -1,5 +1,6 @@
 package com.nearu.nearu.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.nearu.nearu.entity.types.UserType;
@@ -31,9 +32,9 @@ public class User {
     @Column(name = "user_id", unique = true)
     private String userId;
 
-    @OneToOne(mappedBy = "user")
+    @JsonIgnore
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
     private UserInfo userInfo;
-
 
     public User() {
     }

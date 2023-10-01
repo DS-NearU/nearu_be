@@ -22,7 +22,6 @@ import java.util.Date;
 @Table(name = "user_sessions")
 @Getter
 @Setter
-@NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class UserSession extends OriginObject {
 
@@ -30,8 +29,7 @@ public class UserSession extends OriginObject {
     @Column(name = "user_no")
     private Integer userNo;
 
-    @JsonIgnore
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.MERGE ,fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_no", insertable = false, updatable = false)
     private User user;
 

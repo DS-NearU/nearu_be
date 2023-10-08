@@ -73,7 +73,7 @@ public class ApplicationController extends OriginObject {
     @DeleteMapping("/cancel")
     public void cancel (SessionRequest request) {
         StudApplicationDto map = map(request.getParam(), StudApplicationDto.class);
-        applicationService.deleteStudApplication(map.getApplicationNo(), map.getUserNo());
+        applicationService.deleteStudApplication(map.getApplicationNo(), request.getSession().getUserNo());
     }
 
     @SessionMapper

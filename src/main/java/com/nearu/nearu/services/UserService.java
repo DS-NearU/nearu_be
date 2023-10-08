@@ -201,6 +201,7 @@ public class UserService extends OriginObject{
     public SessionResponse setResponseData(User user, String sessionKey){
         SessionResponse sessionResponseDto = new SessionResponse();
         sessionResponseDto.setUserId(user.getUserId());
+        sessionResponseDto.setUserStatusTypeCode(user.getUserType().getType());
         UserInfo info = userInfoRepository.findByUserNo(user.getUserNo());
         sessionResponseDto.setUsername(info.getName());
         sessionResponseDto.setEmail(info.getEmail());
